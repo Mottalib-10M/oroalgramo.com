@@ -1,0 +1,28 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { AUTHOR_NAME, CONTACT_EMAIL, LAST_UPDATED, REVIEW_CYCLE_MONTHS, SITE_NAMES } from '../../data/site-config';
+import { route } from '../../i18n/routes';
+import { displayDate } from '../../lib/format';
+const lang = 'en';
+---
+<PageLayout title={`${SITE_NAMES[lang]} editorial policy: sources and corrections`} description="Where the gold price, the finenesses and the Spanish income tax rates come from, which sources rank first, how the calculators are tested and how errors get fixed." lang={lang} noindex={true} breadcrumbs={[{ label: 'Editorial policy' }]} showAuthor={false}>
+  <div class="prose prose-slate max-w-none">
+    <h1>Editorial policy and corrections</h1>
+    <p>Selling gold too cheaply because of a misread hallmark or a stale price costs real money. This page says where each figure comes from and what we do when something is wrong.</p>
+    <h2>Who is responsible</h2><p>{AUTHOR_NAME} answers for the content and the calculators. Contact: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+    <h2>Order of sources</h2>
+    <ol>
+      <li><strong>Laws published in the Spanish Official Gazette (BOE)</strong>, in their consolidated text: Law 17/1985 on precious metals, Income Tax Act 35/2006, the transfer tax act (Royal Legislative Decree 1/1993), VAT Act 37/1992, Law 7/2012 and Organic Law 4/2015;</li>
+      <li><strong>The metal price</strong>, from gold-api.com, in euros per troy ounce, with the time of each reading;</li>
+      <li><strong>Units of measurement</strong>, from the NIST guide to the International System.</li>
+    </ol>
+    <p>We never use the press, blogs, forums or shop price lists as the source of a figure.</p>
+    <h2>Review</h2>
+    <p>Every figure lives in a single file with its source and the date it was read, and every rule has automated tests. A full review happens at least every {REVIEW_CYCLE_MONTHS} months, sooner if a law changes. Last review: {displayDate(LAST_UPDATED, 'en-GB')}. The metal price is not reviewed by hand: it is read when the site is built and again when each page opens.</p>
+    <h2>Corrections</h2>
+    <p>Tell us about an error and we check it at the source and fix it within a few days.</p>
+    <h2>Independence</h2>
+    <p>No gold buyer, jeweller or bank pays for a mention, there are no affiliate links and we collect no contact details.</p>
+    <p>More about the publisher on the <a href={route('about', lang)}>about</a> page and about the sums on the <a href={route('method', lang)}>method</a> page.</p>
+  </div>
+</PageLayout>

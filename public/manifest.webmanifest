@@ -1,0 +1,21 @@
+{
+ "name": "Oro al Gramo",
+ "short_name": "Oro al Gramo",
+ "description": "Precio del oro hoy por gramo en España según la ley: 18 kilates (750), 24, 14, 9 y plata 925, con la hora de la cotización y qué parte del metal te paga una oferta.",
+ "start_url": "/es/",
+ "display": "standalone",
+ "background_color": "#ffffff",
+ "theme_color": "#8A6A12",
+ "icons": [
+  {
+   "src": "/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  }
+ ]
+}

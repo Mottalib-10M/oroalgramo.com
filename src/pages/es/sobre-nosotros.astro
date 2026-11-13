@@ -1,0 +1,30 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import LegalIdentity from '../../components/LegalIdentity.astro';
+import { route } from '../../i18n/routes';
+import { AUTHOR_NAME, AUTHOR_DESC, CONTACT_EMAIL, SITE_NAMES } from '../../data/site-config';
+import { srcLink } from '../../lib/helpers';
+import { profilePageSchema, organizationSchema, breadcrumbSchema } from '../../lib/seo';
+const lang = 'es';
+const path = route('about', lang);
+const title = 'Quiénes somos: Oro al Gramo, editor independiente y fuentes';
+const description = 'Oro al Gramo lo publica Radif Partners: calculadoras gratuitas del valor del oro y la plata por ley en España, sin compro oro detrás y con fuentes del BOE.';
+const s = (k: string, t: string) => srcLink(k, lang, t);
+---
+<PageLayout title={title} description={description} lang={lang} jsonLd={[organizationSchema(lang), profilePageSchema({ path, lang }), breadcrumbSchema([{ name: 'Inicio', path: route('home', lang) }, { name: 'Quiénes somos', path }])]} breadcrumbs={[{ label: 'Quiénes somos' }]}>
+  <article class="prose prose-slate max-w-none">
+    <h1>Quiénes somos</h1>
+    <p>{AUTHOR_DESC.es}</p>
+    <h2>Por qué existe {SITE_NAMES[lang]}</h2>
+    <p>Quien busca cuánto vale su oro en España encuentra sobre todo plantillas internacionales traducidas, con precios que no cuadran entre una tabla y otra y sin nada sobre las leyes españolas, o comercios que solo dan su precio en tienda. Aquí el precio del metal lleva su hora, cada ley es la que fija la ley española y la oferta de un comprador se convierte en el porcentaje del metal que paga de verdad.</p>
+    <h2>Quién lo publica</h2>
+    <p>Lo publica {AUTHOR_NAME}, una empresa que construye herramientas a partir de normas y datos públicos. No es un compro oro, ni una joyería, ni un banco, ni un asesor fiscal. No cobra por nada, no tiene enlaces de afiliación y no recomienda comercios.</p>
+    <LegalIdentity lang={lang} />
+    <h2>De dónde salen las cifras</h2>
+    <p>Las leyes del oro y la plata, de la <Fragment set:html={s('ley17', 'Ley 17/1985')} />; el IRPF, de la <Fragment set:html={s('lirpf', 'Ley 35/2006')} />; el ITP, del <Fragment set:html={s('itp', 'texto refundido de 1993')} />; el IVA del oro de inversión, de la <Fragment set:html={s('liva', 'Ley 37/1992')} />; el límite de pagos en efectivo, de la <Fragment set:html={s('l7_2012', 'Ley 7/2012')} />. El precio del metal, de <Fragment set:html={s('goldApi', 'gold-api.com')} />. Cómo calculamos está en la <a href={route('method', lang)}>metodología</a>; cómo corregimos, en la <a href={route('editorial', lang)}>política editorial</a>.</p>
+    <h2>Tus datos</h2>
+    <p>Las calculadoras funcionan solo en tu navegador: no hay cuenta, ni formulario, ni almacenamiento. Más detalles en la <a href={route('privacy', lang)}>política de privacidad</a>.</p>
+    <h2>Escríbenos</h2>
+    <p><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>, si ves una cifra mal leída o una norma que ha cambiado.</p>
+  </article>
+</PageLayout>

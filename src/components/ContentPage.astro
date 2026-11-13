@@ -1,0 +1,45 @@
+---
+/**
+ * Rendu d'une page de `src/content/pages/`, dans une langue. Ordre (RECETTE §5, §9.3, §21) : H1, bloc
+ * citable replié (un seul <p>), outil (premier écran), puis le corps ; FAQ, pages liées, sources et
+ * encart auteur viennent du PageLayout, FAQ affichée et balisée depuis la même liste (§7).
+ */
+import PageLayout from '../layouts/PageLayout.astro';
+import Tool from './calc/Tool';
+import Clamp from './Clamp.astro';
+import { route, ROUTES, type Locale } from '../i18n/routes';
+import { label } from '../i18n/nav';
+import { t } from '../i18n/ui';
+import { pageById } from '../lib/pages';
+import { helpers, fill } from '../lib/helpers';
+import { replierSections } from '../lib/replis';
+import { P } from '../lib/engine/params';
+import { articleSchema, faqSchema, breadcrumbSchema, webPageSchema, webApplicationSchema } from '../lib/seo';
+import type { PageDef } from '../lib/page-types';
+interface Props { page: PageDef; lang: Locale }
+const { page, lang } = Astro.props;
+const T = page[lang];
+const x = { title: fill(T.title, lang), description: fill(T.description, lang), h1: fill(T.h1, lang), resume: fill(T.resume, lang), nav: T.nav, faqs: T.faqs.map((f) => ({ q: fill(f.q, lang), a: fill(f.a, lang), open: f.open })) };
+const ui = t(lang);
+const path = route(page.id, lang);
+const aide = lang === 'es' ? 'Más detalles abajo: toca un título para abrirlo.' : 'More detail below: tap a heading to open it.';
+const body = replierSections(fill(T.body(helpers(lang)), lang), 1, aide);
+const parts = body.split(/<!--tool:([a-z]+)-->/);
+const jsonLd = [articleSchema({ title: x.h1, description: x.description, path, lang }), webPageSchema({ name: x.h1, description: x.description, path, lang }), webApplicationSchema({ name: x.h1, description: x.description, path, lang }), breadcrumbSchema([{ name: ui.breadcrumbHome, path: route('home', lang) }, { name: x.nav, path }])];
+if (x.faqs.length) jsonLd.push(faqSchema(x.faqs, lang));
+const related = page.related.map((id) => { if (!ROUTES.some((r) => r.id === id)) throw new Error(`${page.id} : page liée inconnue ${id}`); return { href: route(id, lang), name: label(id, lang), description: fill(pageById(id)?.[lang].card ?? '', lang) }; });
+const sources = [...new Set(['goldApi', ...page.sources])].map((k) => ({ name: P.sources[k].label[lang], url: P.sources[k].url }));
+const tp = page.toolProps ?? {};
+---
+<PageLayout title={x.title} description={x.description} lang={lang} jsonLd={jsonLd} faqs={x.faqs} related={related} sources={sources} breadcrumbs={[{ label: x.nav }]}>
+  <article>
+    <h1 class="mb-2 text-[1.6rem] font-bold leading-tight text-navy-900 sm:text-3xl">{x.h1}</h1>
+    <Clamp text={x.resume} lang={lang} id={`clamp-${page.id}`} label={ui.readMore} class="mb-3" />
+    <div data-outil class="mb-8">
+      <Tool client:load tool={page.tool} lang={lang} idp={page.id.slice(0, 3)} {...tp} />
+    </div>
+    <div class="prose prose-slate max-w-none">
+      {parts.map((p, i) => i % 2 === 0 ? <Fragment set:html={p} /> : <div id={p} class="not-prose my-6 scroll-mt-20" data-chrome><Tool client:load tool={p} lang={lang} idp={`m${i}`} {...tp} mini /></div>)}
+    </div>
+  </article>
+</PageLayout>

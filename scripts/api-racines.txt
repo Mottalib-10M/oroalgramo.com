@@ -1,0 +1,2 @@
+# Racine d’API appelée par le navigateur (src/lib/live.ts) et par scripts/fetch-spot.mjs : point d’appel, pas une source citée.
+https://api.gold-api.com/

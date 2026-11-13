@@ -1,0 +1,29 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE_URL } from '../../data/site-config';
+import { route } from '../../i18n/routes';
+import { breadcrumbSchema } from '../../lib/seo';
+const lang = 'en';
+const code = (name: string, t: string, h: number) => `<iframe src="${SITE_URL}/embed/${lang}/${name}/" title="${t}" width="100%" height="${h}" style="border:0;max-width:1100px" loading="lazy"></iframe>`;
+const items = [
+  { name: 'precio-oro-gramo', h2: 'Gold price per gram by fineness', text: 'Fineness and weight in, metal value out at the current price with its time, plus the per-gram table for 999, 916, 750, 585 and 375.', t: 'Gold price per gram by fineness in Spain', h: 820 },
+  { name: 'comprobar-oferta', h2: 'Check a gold buyer’s offer', text: 'Turns a buyer’s offer into the share of the metal value it really pays.', t: 'Check a gold buyer’s offer', h: 720 },
+];
+---
+<PageLayout title="Embed the Spanish gold price per gram calculator for free" description="Embed for free, with one iframe, the gold price per gram by fineness calculator and the gold buyer offer checker for Spain: the metal price loads itself, with its time." lang={lang} noindex={true} jsonLd={[breadcrumbSchema([{ name: 'Home', path: route('home', lang) }, { name: 'Widget', path: route('widget', lang) }])]} breadcrumbs={[{ label: 'Widget' }]} showAuthor={false}>
+  <header class="mb-6">
+    <h1 class="text-3xl font-bold text-navy-900 md:text-4xl">Embed the calculators</h1>
+    <p class="mt-3 text-lg text-navy-700">For jewellery blogs, expat forums and consumer groups in Spain: paste it once and the price refreshes itself on every visit.</p>
+  </header>
+  <div class="prose prose-slate max-w-none">
+    {items.map((i) => (<>
+      <h2>{i.h2}</h2>
+      <p>{i.text}</p>
+      <pre class="overflow-x-auto rounded-lg bg-navy-900 p-4 text-sm text-white"><code>{code(i.name, i.t, i.h)}</code></pre>
+    </>))}
+    <p>For the Spanish version, change <code>/embed/en/</code> to <code>/embed/es/</code>. Terms: keep the credit link under the calculator visible, do not alter the calculator, no warranty. What your readers type stays on their device. Questions: see the <a href={route('contact', lang)}>contact</a> page.</p>
+  </div>
+  <div class="mt-8 overflow-hidden rounded-xl border border-navy-200">
+    <iframe src={`/embed/${lang}/precio-oro-gramo/`} title="Gold price per gram by fineness in Spain" width="100%" height="820" style="border:0" loading="lazy"></iframe>
+  </div>
+</PageLayout>

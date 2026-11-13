@@ -1,0 +1,20 @@
+{
+ "accent": "#8A6A12",
+ "symbol": "Au",
+ "variants": [
+  {
+   "file": "og-es.png",
+   "title": "Precio del oro hoy\nal gramo, por ley",
+   "subtitle": "18 k (750) · 24 k · 14 k · 9 k · plata 925 · comprobar oferta",
+   "badge": "Leyes de la Ley 17/1985 · cotización con hora",
+   "brand": "Oro al Gramo"
+  },
+  {
+   "file": "og-en.png",
+   "title": "Gold price per gram\nin Spain, by fineness",
+   "subtitle": "18k (750) · 24k · 14k · 9k · 925 silver · offer checker",
+   "badge": "Spanish Law 17/1985 finenesses · timed price",
+   "brand": "Oro al Gramo"
+  }
+ ]
+}

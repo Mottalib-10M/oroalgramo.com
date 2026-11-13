@@ -1,0 +1,29 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { SITE_URL } from '../../data/site-config';
+import { route } from '../../i18n/routes';
+import { breadcrumbSchema } from '../../lib/seo';
+const lang = 'es';
+const code = (name: string, t: string, h: number) => `<iframe src="${SITE_URL}/embed/${lang}/${name}/" title="${t}" width="100%" height="${h}" style="border:0;max-width:1100px" loading="lazy"></iframe>`;
+const items = [
+  { name: 'precio-oro-gramo', h2: 'Precio del oro por gramo y ley', text: 'Ley y peso: devuelve el valor del metal al precio del momento, con la hora, y la tabla del gramo para 999, 916, 750, 585 y 375.', t: 'Precio del oro hoy por gramo y ley', h: 820 },
+  { name: 'comprobar-oferta', h2: 'Comprobar la oferta de un compro oro', text: 'Convierte la oferta de un comprador en el porcentaje del valor del metal que paga de verdad.', t: 'Comprueba la oferta de un compro oro', h: 720 },
+];
+---
+<PageLayout title="Insertar gratis la calculadora del precio del oro por gramo" description="Inserta gratis con un iframe la calculadora del precio del oro por gramo y ley y el comprobador de ofertas de compro oro: el precio del metal se lee solo, con su hora." lang={lang} noindex={true} jsonLd={[breadcrumbSchema([{ name: 'Inicio', path: route('home', lang) }, { name: 'Widget', path: route('widget', lang) }])]} breadcrumbs={[{ label: 'Widget' }]} showAuthor={false}>
+  <header class="mb-6">
+    <h1 class="text-3xl font-bold text-navy-900 md:text-4xl">Insertar las calculadoras</h1>
+    <p class="mt-3 text-lg text-navy-700">Para blogs de joyería, asociaciones de consumidores y foros: lo copias una vez y el precio se actualiza solo en cada visita.</p>
+  </header>
+  <div class="prose prose-slate max-w-none">
+    {items.map((i) => (<>
+      <h2>{i.h2}</h2>
+      <p>{i.text}</p>
+      <pre class="overflow-x-auto rounded-lg bg-navy-900 p-4 text-sm text-white"><code>{code(i.name, i.t, i.h)}</code></pre>
+    </>))}
+    <p>Para la versión inglesa, cambia <code>/embed/es/</code> por <code>/embed/en/</code>. Condiciones: el enlace a la fuente bajo la calculadora queda visible, la calculadora no se modifica y se ofrece sin garantía. Lo que escriben tus lectores se queda en su equipo. Dudas en la página de <a href={route('contact', lang)}>contacto</a>.</p>
+  </div>
+  <div class="mt-8 overflow-hidden rounded-xl border border-navy-200">
+    <iframe src={`/embed/${lang}/precio-oro-gramo/`} title="Precio del oro hoy por gramo y ley" width="100%" height="820" style="border:0" loading="lazy"></iframe>
+  </div>
+</PageLayout>

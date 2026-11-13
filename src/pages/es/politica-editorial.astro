@@ -1,0 +1,28 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { AUTHOR_NAME, CONTACT_EMAIL, LAST_UPDATED, REVIEW_CYCLE_MONTHS, SITE_NAMES } from '../../data/site-config';
+import { route } from '../../i18n/routes';
+import { displayDate } from '../../lib/format';
+const lang = 'es';
+---
+<PageLayout title={`Política editorial de ${SITE_NAMES[lang]}: fuentes y correcciones`} description="De dónde salen el precio del oro, las leyes y los tipos del IRPF, en qué orden pesan las fuentes, cómo probamos las calculadoras y qué hacemos si algo está mal." lang={lang} noindex={true} breadcrumbs={[{ label: 'Política editorial' }]} showAuthor={false}>
+  <div class="prose prose-slate max-w-none">
+    <h1>Política editorial y correcciones</h1>
+    <p>Vender oro por debajo de su valor por una ley mal leída o un precio desfasado cuesta dinero. Esta página dice de dónde sale cada dato y qué hacemos cuando algo falla.</p>
+    <h2>Responsable</h2><p>{AUTHOR_NAME} responde del contenido y de las calculadoras. Contacto: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+    <h2>Orden de las fuentes</h2>
+    <ol>
+      <li><strong>Normas publicadas en el BOE</strong>, en su texto consolidado: Ley 17/1985 de metales preciosos, Ley 35/2006 del IRPF, texto refundido del ITP (Real Decreto Legislativo 1/1993), Ley 37/1992 del IVA, Ley 7/2012 y Ley Orgánica 4/2015;</li>
+      <li><strong>El precio del metal</strong>, de gold-api.com, en euros por onza troy, con la hora de cada lectura;</li>
+      <li><strong>Unidades de medida</strong>, de la guía del Sistema Internacional del NIST.</li>
+    </ol>
+    <p>No usamos prensa, blogs, foros ni tarifas de comercios como fuente de una cifra.</p>
+    <h2>Revisión</h2>
+    <p>Cada cifra vive en un único fichero con su fuente y su fecha de lectura, y cada regla tiene pruebas automáticas. Revisión completa al menos cada {REVIEW_CYCLE_MONTHS} meses, y antes si cambia una norma. Última revisión: {displayDate(LAST_UPDATED, 'es-ES')}. El precio del metal no se revisa a mano: se lee al construir el sitio y otra vez al abrir cada página.</p>
+    <h2>Correcciones</h2>
+    <p>Si nos avisas de un error, lo comprobamos en la fuente y corregimos en pocos días.</p>
+    <h2>Independencia</h2>
+    <p>Ningún compro oro, joyería o banco paga por aparecer, no hay enlaces de afiliación y no captamos datos de contacto.</p>
+    <p>Más sobre el editor en <a href={route('about', lang)}>quiénes somos</a> y sobre los cálculos en la <a href={route('method', lang)}>metodología</a>.</p>
+  </div>
+</PageLayout>

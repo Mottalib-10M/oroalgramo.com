@@ -1,0 +1,20 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { CONTACT_EMAIL, SITE_NAMES } from '../../data/site-config';
+import { route } from '../../i18n/routes';
+import { contactPageSchema } from '../../lib/seo';
+const lang = 'en';
+const description = 'Write to us if a fineness, an income tax rate or a price looks wrong, or if you want to embed the gold calculator on your own site. We reply within a week.';
+---
+<PageLayout title={`Contact ${SITE_NAMES[lang]}: report an error`} description={description} lang={lang} noindex={true} jsonLd={[contactPageSchema({ name: 'Contact', description, path: route('contact', lang), lang })]} breadcrumbs={[{ label: 'Contact' }]} showAuthor={false}>
+  <div class="prose prose-slate max-w-none">
+    <h1>Contact</h1>
+    <p>Email: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. We usually reply within a week.</p>
+    <h2>An error</h2>
+    <p>Give the page, the sentence and, if you can, the article of the Spanish Official Gazette that says otherwise. We check the source and correct within a few days.</p>
+    <h2>Valuations and purchases</h2>
+    <p>We do not value pieces, buy or sell gold, or recommend shops. Please do not send photos of jewellery or personal details.</p>
+    <h2>Embed a calculator</h2>
+    <p>Blogs, forums and associations can embed the calculator for free: <a href={route('widget', lang)}>embed</a>.</p>
+  </div>
+</PageLayout>

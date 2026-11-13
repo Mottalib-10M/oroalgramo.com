@@ -1,0 +1,20 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { CONTACT_EMAIL, SITE_NAMES } from '../../data/site-config';
+import { route } from '../../i18n/routes';
+import { contactPageSchema } from '../../lib/seo';
+const lang = 'es';
+const description = 'Escríbenos si una ley, un tipo del IRPF o un precio parece incorrecto, o si quieres insertar la calculadora del oro en tu web. Respondemos en una semana.';
+---
+<PageLayout title={`Contacto de ${SITE_NAMES[lang]}: avisar de un error`} description={description} lang={lang} noindex={true} jsonLd={[contactPageSchema({ name: 'Contacto', description, path: route('contact', lang), lang })]} breadcrumbs={[{ label: 'Contacto' }]} showAuthor={false}>
+  <div class="prose prose-slate max-w-none">
+    <h1>Contacto</h1>
+    <p>Correo: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Solemos responder en una semana.</p>
+    <h2>Un error</h2>
+    <p>Indica la página, la frase y, si puedes, el artículo del BOE que lo dice. Lo comprobamos en la fuente y corregimos en pocos días.</p>
+    <h2>Tasaciones y compras</h2>
+    <p>No tasamos piezas, no compramos ni vendemos oro y no recomendamos comercios. No nos envíes fotos de joyas ni datos personales.</p>
+    <h2>Insertar una calculadora</h2>
+    <p>Blogs, foros y asociaciones pueden insertar gratis la calculadora: <a href={route('widget', lang)}>insertar</a>.</p>
+  </div>
+</PageLayout>

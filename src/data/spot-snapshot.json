@@ -1,0 +1,12 @@
+{
+ "source": "gold-api.com",
+ "currency": "EUR",
+ "eurPerOz": {
+  "XAU": 3520.73,
+  "XAG": 45.04
+ },
+ "at": {
+  "XAU": "2026-11-13T11:01:23Z",
+  "XAG": "2026-11-13T11:01:23Z"
+ }
+}
