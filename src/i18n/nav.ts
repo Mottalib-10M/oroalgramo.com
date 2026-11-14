@@ -15,7 +15,8 @@ const COURT: Record<Locale, Record<Group, string>> = {
   en: { gold: 'Gold price', sell: 'Selling', silver: 'Silver', rules: 'Tax' },
 };
 export const GROUPS_ORDER: Group[] = ['gold', 'sell', 'silver', 'rules'];
-const MENU_ORDER: Group[] = ['sell', 'gold', 'silver', 'rules'];
+// Testeurs naïfs du 2026-11-14 : « Precio del oro », le sujet de la recherche, en tête du menu et déplié.
+const MENU_ORDER: Group[] = ['gold', 'sell', 'silver', 'rules'];
 export const label = (id: string, lang: Locale = 'es') => CORE[lang][id] ?? pageById(id)?.[lang].nav ?? id;
 const link = (id: string, lang: Locale): NavLink => ({ href: route(id, lang), label: label(id, lang) });
 const inGroup = (g: Group, lang: Locale) => PAGES.filter((p) => p.group === g).map((p) => link(p.id, lang));

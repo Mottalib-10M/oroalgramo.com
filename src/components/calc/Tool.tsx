@@ -10,7 +10,8 @@ import Toggle from '../ui/Toggle';
 import { useSpot, type Spot } from '../../lib/live';
 import { P, SNAPSHOT, type Metal } from '../../lib/engine/params';
 import { metalValue, gramPrice, leyTable, toGrams, offerShare, lotValue, premium, isInvestmentGold, goldGainTax, itpOnPurchase, cashAllowed, karatOfLey, isLegalLey, OZ, type Unit } from '../../lib/engine/metal';
-import { eur, eur2, pct, grams, clock, dec, type Lang } from '../../lib/money';
+// Montants des calculateurs toujours avec leurs centimes (testeurs naïfs du 2026-11-14 : « 1072 € » à côté de « 679,44 € »).
+import { eur2 as eur, eur2, eur0, pct, grams, clock, dec, type Lang } from '../../lib/money';
 import { readParams, num, str, updateURL } from '../../lib/url-state';
 import { exampleOffer } from '../../lib/exemple';
 import { SpotLine, Row, Frame, Big, Table, LeySelect, SilverSelect, UnitSelect, useExample, ExampleNote, tr } from './common';
@@ -26,8 +27,8 @@ const MINI: Record<string, [string, string]> = {
   offer: ['Comprueba una oferta por este oro', 'Check an offer for this gold'],
   lot: ['Valora un lote de piezas de leyes distintas', 'Value a lot of pieces of mixed fineness'],
   units: ['Convierte gramos, onzas y kilos', 'Convert grams, ounces and kilos'],
-  gains: ['IRPF por la venta', 'Income tax on the sale'],
-  itp: ['El ITP que paga el comprador', 'The transfer tax the buyer pays'],
+  gains: ['Impuesto sobre la renta (IRPF) por la venta', 'Income tax on the sale'],
+  itp: ['El impuesto de transmisiones (ITP) que paga el comprador', 'The transfer tax the buyer pays'],
   cash: ['¿Te pueden pagar en efectivo?', 'Can you be paid in cash?'],
   compare: ['Compara dos o tres presupuestos', 'Compare two or three quotes'],
   stamp: ['Lee un contraste', 'Read a hallmark'],
@@ -76,13 +77,13 @@ function Board({ lang, mini, title, idp = 'b', ley: l0 = 750, grams: g0 = 10 }: 
         {example && <ExampleNote>{L(`Ejemplo: ${dec(w, 3, lang)} ${us} de oro de ${ley}. Escribe el peso de tu pieza.`, `Example: ${dec(w, 3, lang)} ${us} of ${ley} gold. Type the weight of your piece.`)}</ExampleNote>}
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-y-0"><LeySelect id={`${idp}-l`} value={ley} onChange={typed(setLey)} lang={lang} /><NumberField id={`${idp}-w`} label={L('Peso', 'Weight')} value={w} onChange={typed(setW)} unit={us} decimals={3} max={100000} /></div>
         <UnitSelect id={`${idp}-u`} value={u} onChange={typed(setU)} lang={lang} units={['g', 'ozt']} />
-        <p className="-mt-2 text-xs text-navy-600">{L('La ley es el número de tres cifras grabado en la pieza (750 = 18 kilates). ¿Sin contraste? Elige 375 para no sobrevalorarla. Una báscula de cocina en gramos sirve.', 'The fineness is the three-digit number stamped on the piece (750 = 18 karat). No stamp? Choose 375 so the value is not too high. A kitchen scale in grams will do.')}</p>
+        <p className="-mt-2 text-xs text-navy-600">{L('La ley es la pureza del oro: el número de tres cifras grabado en la pieza (750 = 18 kilates). ¿Sin contraste? Elige 375 para no sobrevalorarla. Una báscula de cocina en gramos sirve.', 'The fineness is the three-digit number stamped on the piece (750 = 18 karat). No stamp? Choose 375 so the value is not too high. A kitchen scale in grams will do.')}</p>
       </>}
       result={<>
         <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L(`${dec(w, 3, lang)} ${us} de oro de ${ley} valen`, `${dec(w, 3, lang)} ${us} of ${ley} gold is worth`)}`} value={eur(value, lang)} sub={<>{L(`El metal, al precio de las ${timeOf(spot, lang)}. Un comprador paga menos, porque tiene que fundirlo y refinarlo.`, `The metal itself, at the price of ${timeOf(spot, lang)}. A buyer pays less, because it has to melt and refine it.`)}</>} />
         <p className="mt-2 text-sm font-medium text-navy-900">{RANGE(value, lang)}</p>
         <Table caption={L('Precio del gramo de oro por ley', 'Gold price per gram by fineness')}>
-          {leyTable(oz).map((r) => <Row key={r.ley} label={L(`Ley ${r.ley} (${r.k} k): 1 g`, `${r.ley} (${r.k}k): 1 g`)} value={eur2(r.gram, lang)} strong={r.ley === ley} />)}
+          {leyTable(oz).map((r) => <Row key={r.ley} label={L(`Ley ${r.ley} (${r.k} kilates): 1 g`, `${r.ley} (${r.k}k): 1 g`)} value={eur2(r.gram, lang)} strong={r.ley === ley} />)}
         </Table>
       </>}
       foot={mini ? undefined : <div className="mt-4 grid gap-3 border-t border-accent-200 pt-4 md:grid-cols-2">
@@ -155,11 +156,11 @@ function Offer({ lang, mini, title, idp = 'o', ley: l0 = 750, grams: g0 = 10, of
         <NumberField id={`${idp}-o`} label={L('Lo que te ofrecen, en total', 'What you are offered, in total')} value={offer} onChange={typed(setOffer)} unit="€" decimals={2} max={10000000} help={L('Si te lo dieron por gramo, multiplícalo por el peso.', 'If it was quoted per gram, multiply by the weight.')} />
       </>}
       result={<>
-        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L('la oferta paga', 'the offer pays')}`} value={pct(s.share, 1, lang)} sub={L(`del valor del metal (${eur(value, lang)} a las ${timeOf(spot, lang)}).`, `of the metal value (${eur(value, lang)} at ${timeOf(spot, lang)}).`)} />
+        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L('la oferta paga', 'the offer pays')}`} value={pct(s.share, 1, lang)} sub={L(`del valor del metal, que es ${eur(value, lang)} a las ${timeOf(spot, lang)}.`, `of the metal value (${eur(value, lang)} at ${timeOf(spot, lang)}).`)} />
         <Table caption={L('Detalle de la oferta', 'Offer breakdown')}>
           <Row label={L('Valor del oro', 'Gold value')} value={eur(value, lang)} />
           <Row label={L('Oferta', 'Offer')} value={eur(offer, lang)} />
-          <Row label={L('Lo que se queda el comprador', 'What the buyer keeps')} value={eur(Math.max(0, s.gap), lang)} strong />
+          <Row label={L('Lo que se queda el comprador (antes de sus gastos e impuestos)', 'What the buyer keeps (before its costs and taxes)')} value={eur(Math.max(0, s.gap), lang)} strong />
           <Row label={L('Oferta por gramo', 'Offer per gram')} value={eur2(perGram, lang)} />
           <Row label={L(`Valor de 1 g de ${ley}`, `Value of 1 g of ${ley}`)} value={eur2(gramPrice(ley, spot.XAU.eurPerOz), lang)} />
         </Table>
@@ -214,6 +215,7 @@ function Compare({ lang, mini, title, idp = 'cp', ley: l0 = 750, grams: g0 = 10 
   const spot = useSpot(['XAU']);
   const value = metalValue(g, ley, spot.XAU.eurPerOz);
   const best = Math.max(...q);
+  const bestIdx = q.indexOf(best);
   const names = [L('Comercio A', 'Buyer A'), L('Comercio B', 'Buyer B'), L('Comercio C', 'Buyer C')];
   return (
     <Frame lang={lang} mini={mini} title={title} spotLine={<SpotLine spot={spot} metals={['XAU']} lang={lang} />}
@@ -223,7 +225,7 @@ function Compare({ lang, mini, title, idp = 'cp', ley: l0 = 750, grams: g0 = 10 
         {q.map((x, i) => <NumberField key={i} id={`${idp}-q${i}`} label={`${names[i]}${i === 2 ? L(' (opcional)', ' (optional)') : ''}`} value={x} onChange={typed((v: number) => setQ((o) => o.map((y, j) => (j === i ? v : y))))} unit="€" decimals={2} max={10000000} />)}
       </>}
       result={<>
-        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L('la mejor oferta paga', 'the best offer pays')}`} value={pct(value > 0 ? best / value : 0, 1, lang)} sub={L(`del metal (${eur(value, lang)} a las ${timeOf(spot, lang)}).`, `of the metal (${eur(value, lang)} at ${timeOf(spot, lang)}).`)} />
+        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L(`${names[bestIdx]} paga más`, `${names[bestIdx]} pays most`)}`} value={pct(value > 0 ? best / value : 0, 1, lang)} sub={L(`del valor del metal, que es ${eur(value, lang)} a las ${timeOf(spot, lang)}.`, `of the metal (${eur(value, lang)} at ${timeOf(spot, lang)}).`)} />
         <Table caption={L('Presupuestos comparados', 'Quotes compared')}>
           {q.map((x, i) => x > 0 ? <Row key={i} label={names[i]} value={`${eur(x, lang)} · ${pct(value > 0 ? x / value : 0, 1, lang)}`} strong={x === best} /> : null)}
           <Row label={L('Diferencia entre la mejor y la peor', 'Gap between best and worst')} value={eur(best - Math.min(...q.filter((x) => x > 0)), lang)} />
@@ -307,16 +309,16 @@ function Gains({ lang, mini, title, idp = 'gn' }: ToolArgs) {
         {example && <ExampleNote>{L(`Ejemplo: vendes por ${eur(sale, lang)} oro que te costó ${eur(cost, lang)}. Escribe tus cifras.`, `Example: you sell for ${eur(sale, lang)} gold that cost you ${eur(cost, lang)}. Type your own figures.`)}</ExampleNote>}
         <NumberField id={`${idp}-v`} label={L('Precio de venta', 'Sale price')} value={sale} onChange={typed(setSale)} unit="€" decimals={2} max={10000000} />
         <NumberField id={`${idp}-c`} label={L('Lo que pagaste (o el valor declarado si lo heredaste)', 'What you paid (or the declared value if inherited)')} value={cost} onChange={typed(setCost)} unit="€" decimals={2} max={10000000} help={L('Con la factura, más los gastos de compra. Herencia o donación: el valor del impuesto de sucesiones.', 'From the invoice, plus purchase costs. Inheritance or gift: the value used for inheritance tax.')} />
-        <NumberField id={`${idp}-x`} label={L('Otras ganancias del ahorro del año (opcional)', 'Other savings income this year (optional)')} value={other} onChange={typed(setOther)} unit="€" max={10000000} help={L('Intereses, dividendos, otras ventas: suben el tramo.', 'Interest, dividends, other sales: they push you up the scale.')} />
+        <NumberField id={`${idp}-x`} label={L('Otras ganancias de este año: intereses, dividendos… (opcional)', 'Other savings income this year (optional)')} value={other} onChange={typed(setOther)} unit="€" max={10000000} help={L('Si las tienes, se suman a esta venta y el porcentaje de impuesto puede subir: cuanto más ganas en el año, más alto es.', 'Interest, dividends, other sales: they push you up the scale.')} />
       </>}
       result={<>
-        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L('IRPF estimado por esta venta', 'estimated income tax on this sale')}`} value={eur(r.tax, lang)} sub={r.gain > 0 ? L(`Sobre una ganancia de ${eur(r.gain, lang)}, a un tipo medio del ${pct(r.rate, 1, lang)}.`, `On a gain of ${eur(r.gain, lang)}, at an average rate of ${pct(r.rate, 1, lang)}.`) : L('Sin ganancia: no hay impuesto. Una pérdida se puede compensar con otras ganancias.', 'No gain, no tax. A loss can be set against other gains.')} />
+        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L('impuesto sobre la renta (IRPF) estimado por esta venta', 'estimated income tax on this sale')}`} value={eur(r.tax, lang)} sub={r.gain > 0 ? L(`Sobre una ganancia de ${eur(r.gain, lang)} (lo que cobras menos lo que te costó), un ${pct(r.rate, 1, lang)} de media. Se paga en la declaración de la renta del año siguiente.`, `On a gain of ${eur(r.gain, lang)}, at an average rate of ${pct(r.rate, 1, lang)}.`) : L('Sin ganancia: no hay impuesto. Una pérdida se puede compensar con otras ganancias.', 'No gain, no tax. A loss can be set against other gains.')} />
         <Table caption={L('Cálculo', 'Working')}>
-          <Row label={L('Ganancia patrimonial', 'Capital gain')} value={eur(r.gain, lang)} />
-          <Row label={L('Impuesto (escala del ahorro)', 'Tax (savings scale)')} value={eur(r.tax, lang)} strong />
+          <Row label={L('Ganancia (venta menos coste)', 'Capital gain')} value={eur(r.gain, lang)} />
+          <Row label={L('Impuesto', 'Tax (savings scale)')} value={eur(r.tax, lang)} strong />
           <Row label={L('Te queda', 'You keep')} value={eur(r.net, lang)} />
         </Table>
-        <p className="mt-2 text-xs text-navy-600">{L('Escala total del Estado y la comunidad. Una joya comprada antes de 1995 puede tener una reducción que esta cuenta no aplica.', 'Combined state and regional scale. A piece bought before 1995 may get a reduction this sum does not apply.')}</p>
+        <p className="mt-2 text-xs text-navy-600">{L('Porcentajes del Estado y de la comunidad sumados. ¿Compraste la joya antes de 1995? Pagarás menos, a veces casi nada: esta cuenta no lo descuenta.', 'Combined state and regional scale. A piece bought before 1995 may get a reduction this sum does not apply.')}</p>
       </>} />
   );
 }
@@ -341,16 +343,17 @@ function Itp({ lang, mini, title, idp = 'it', ley: l0 = 750, grams: g0 = 10 }: T
         {example && <ExampleNote>{L(`Ejemplo: oferta de ${eur(offer, lang)} por ${dec(g, 3, lang)} g de ${ley}. Escribe la tuya.`, `Example: an offer of ${eur(offer, lang)} for ${dec(g, 3, lang)} g of ${ley}. Type your own.`)}</ExampleNote>}
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-y-0"><LeySelect id={`${idp}-l`} value={ley} onChange={typed(setLey)} lang={lang} /><NumberField id={`${idp}-g`} label={L('Peso', 'Weight')} value={g} onChange={typed(setG)} unit="g" decimals={3} max={100000} /></div>
         <NumberField id={`${idp}-o`} label={L('Lo que te pagan', 'What you are paid')} value={offer} onChange={typed(setOffer)} unit="€" decimals={2} max={10000000} />
-        <NumberField id={`${idp}-t`} label={L('Tipo del ITP en tu comunidad', 'Transfer tax rate in your region')} value={rate} onChange={typed(setRate)} unit="%" decimals={2} max={20} help={L('Por defecto, el 4 % estatal para bienes muebles; tu comunidad puede fijar otro.', 'Defaults to the 4% state rate for movable goods; your region may set another.')} />
+        <NumberField id={`${idp}-t`} label={L('Porcentaje del ITP en tu comunidad', 'Transfer tax rate in your region')} value={rate} onChange={typed(setRate)} unit="%" decimals={2} max={20} help={L('Si no lo sabes, deja el 4 % que se aplica por defecto; tu comunidad autónoma puede fijar otro.', 'Defaults to the 4% state rate for movable goods; your region may set another.')} />
       </>}
       result={<>
-        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L('ITP que paga el comprador', 'transfer tax the buyer pays')}`} value={eur(tax, lang)} sub={L('Lo paga quien compra, no tú: no se descuenta de tu precio de forma legal, aunque pesa en su oferta.', 'The buyer pays it, not you: it is not legally deducted from your price, though it weighs on the offer.')} />
+        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L('impuesto de transmisiones (ITP) que paga el comprador', 'transfer tax the buyer pays')}`} value={eur(tax, lang)} sub={L('Lo paga quien compra, no tú: no te lo pueden descontar de tu precio, aunque lo tiene en cuenta al hacer su oferta.', 'The buyer pays it, not you: it is not legally deducted from your price, though it weighs on the offer.')} />
         <Table caption={L('Reparto del valor del metal', 'Where the metal value goes')}>
           <Row label={L('Valor del oro', 'Gold value')} value={eur(value, lang)} />
           <Row label={L('Lo que recibes', 'What you get')} value={`${eur(offer, lang)} · ${pct(value > 0 ? offer / value : 0, 1, lang)}`} strong />
           <Row label="ITP" value={eur(tax, lang)} />
-          <Row label={L('Margen bruto del comprador', "Buyer's gross margin")} value={eur(margin, lang)} />
+          <Row label={L('Lo que le queda al comprador después de pagar el ITP', "Buyer's gross margin")} value={eur(margin, lang)} />
         </Table>
+        <p className="mt-2 text-sm text-navy-700">{L(`Es la diferencia con el valor del metal (${eur(Math.max(0, value - offer), lang)}) menos el ITP (${eur(tax, lang)}). De ahí paga además la fundición y sus gastos.`, `That is the gap to the metal value (${eur(Math.max(0, value - offer), lang)}) minus the transfer tax (${eur(tax, lang)}). The refiner and its other costs come out of it too.`)}</p>
       </>} />
   );
 }
@@ -370,7 +373,7 @@ function Cash({ lang, mini, title, idp = 'ca' }: ToolArgs) {
         <NumberField id={`${idp}-a`} label={L('Total de la operación con el comercio', 'Total of the deal with the shop')} value={amount} onChange={typed(setAmount)} unit="€" decimals={2} max={10000000} help={L('Si se divide en varios pagos, súmalos: la ley los cuenta juntos.', 'If it is split into several payments, add them up: the law counts them together.')} />
       </>}
       result={<>
-        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L('¿En efectivo?', 'In cash?')}`} value={ok ? L('Sí, se permite', 'Yes, allowed') : L('No: por transferencia', 'No: by bank transfer')} sub={ok ? L(`Por debajo de ${eur(P.cash.limit, lang)}, el comercio puede pagarte en billetes.`, `Below ${eur(P.cash.limit, lang)}, the shop may pay you in notes.`) : L(`Desde ${eur(P.cash.limit, lang)}, un comercio no puede pagar en efectivo: pide transferencia o cheque y guarda el justificante ${P.cash.keepYears} años.`, `From ${eur(P.cash.limit, lang)}, a business may not pay in cash: ask for a transfer or cheque and keep the proof for ${P.cash.keepYears} years.`)} />
+        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L('¿En efectivo?', 'In cash?')}`} value={ok ? L('Sí, se permite', 'Yes, allowed') : L('No: por transferencia', 'No: by bank transfer')} sub={ok ? L(`Por debajo de ${eur0(P.cash.limit, lang)}, el comercio puede pagarte en billetes.`, `Below ${eur0(P.cash.limit, lang)}, the shop may pay you in notes.`) : L(`Desde ${eur0(P.cash.limit, lang)}, un comercio no puede pagar en efectivo: pide transferencia o cheque y guarda el justificante ${P.cash.keepYears} años.`, `From ${eur0(P.cash.limit, lang)}, a business may not pay in cash: ask for a transfer or cheque and keep the proof for ${P.cash.keepYears} years.`)} />
       </>} />
   );
 }
@@ -396,16 +399,16 @@ function Inversion({ lang, mini, title, idp = 'iv' }: ToolArgs) {
       fields={<>
         {example && <ExampleNote>{L(`Ejemplo: lingote de ${dec(g, 3, lang)} g a ${eur(price, lang)}. Escribe tu pieza y su precio.`, `Example: a ${dec(g, 3, lang)} g bar at ${eur(price, lang)}. Type your piece and its price.`)}</ExampleNote>}
         <Toggle id={`${idp}-k`} label={L('¿Qué es?', 'What is it?')} value={kind} onChange={typed((v: string) => setKind(v as 'lingote' | 'moneda'))} options={[{ value: 'lingote', label: L('Lingote', 'Bar') }, { value: 'moneda', label: L('Moneda', 'Coin') }]} />
-        <div className="grid gap-4 sm:grid-cols-2 sm:gap-y-0"><NumberField id={`${idp}-l`} label={L('Ley (milésimas)', 'Fineness (parts per 1,000)')} value={ley} onChange={typed(setLey)} decimals={1} max={1000} /><NumberField id={`${idp}-g`} label={L('Peso total', 'Total weight')} value={g} onChange={typed(setG)} unit="g" decimals={3} max={100000} /></div>
+        <div className="grid gap-4 sm:grid-cols-2 sm:gap-y-0"><NumberField id={`${idp}-l`} label={L('Pureza o ley (milésimas)', 'Fineness (parts per 1,000)')} value={ley} onChange={typed(setLey)} decimals={1} max={1000} /><NumberField id={`${idp}-g`} label={L('Peso total', 'Total weight')} value={g} onChange={typed(setG)} unit="g" decimals={3} max={100000} /></div>
         <NumberField id={`${idp}-p`} label={L('Precio pedido o pagado', 'Price asked or paid')} value={price} onChange={typed(setPrice)} unit="€" decimals={2} max={10000000} />
         {kind === 'moneda' && <NumberField id={`${idp}-y`} label={L('Año de acuñación', 'Year struck')} value={year} onChange={typed(setYear)} max={2100} />}
       </>}
       result={<>
-        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L('oro de inversión (sin IVA)', 'investment gold (no VAT)')}`} value={inv.ok ? L('Sí', 'Yes') : L('No', 'No')} sub={inv.ok ? L('Su venta está exenta de IVA (art. 140 bis de la Ley del IVA).', 'Its sale is exempt from VAT (art. 140 bis, Spanish VAT Act).') : L(`No cumple: ${why[inv.reason!]}.`, `It does not qualify: ${why[inv.reason!]}.`)} />
+        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L('¿es oro de inversión, sin IVA (el impuesto sobre el valor añadido)?', 'investment gold (no VAT)')}`} value={inv.ok ? L('Sí, sin IVA', 'Yes') : L('No, lleva IVA', 'No')} sub={inv.ok ? L('Es oro de inversión: su compra y su venta no llevan IVA.', 'Its sale is exempt from VAT (art. 140 bis, Spanish VAT Act).') : L(`No cumple: ${why[inv.reason!]}.`, `It does not qualify: ${why[inv.reason!]}.`)} />
         <Table caption={L('Precio frente al metal', 'Price against the metal')}>
           <Row label={L('Oro puro que contiene', 'Pure gold inside')} value={grams(g * ley / 1000, 3, lang)} />
           <Row label={L('Valor del metal', 'Metal value')} value={eur(value, lang)} />
-          <Row label={L('Prima sobre el metal', 'Premium over the metal')} value={pct(prem, 1, lang)} strong />
+          <Row label={L('Lo que pagas de más sobre el valor del oro (prima)', 'Premium over the metal')} value={pct(prem, 1, lang)} strong />
         </Table>
         {kind === 'moneda' && <p className="mt-2 text-xs text-navy-600">{L('Una moneda debe además tener o haber tenido curso legal en su país.', 'A coin must also be or have been legal tender in its country.')}</p>}
       </>} />
@@ -413,7 +416,7 @@ function Inversion({ lang, mini, title, idp = 'iv' }: ToolArgs) {
 }
 
 /* ---------- Lire un contraste ---------- */
-function Stamp({ lang, mini, title, idp = 'st' }: ToolArgs) {
+function Stamp({ lang, mini, title, idp = 'st', kind }: ToolArgs) {
   const L = tr(lang);
   const [metal, setMetal] = useState<'oro' | 'plata'>('oro');
   const [ley, setLey] = useState(750);
@@ -433,8 +436,13 @@ function Stamp({ lang, mini, title, idp = 'st' }: ToolArgs) {
         <Toggle id={`${idp}-m`} label={L('Metal', 'Metal')} value={metal} onChange={typed((v: string) => setMetal(v as 'oro' | 'plata'))} options={[{ value: 'oro', label: L('Oro', 'Gold') }, { value: 'plata', label: L('Plata', 'Silver') }]} />
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-y-0"><NumberField id={`${idp}-l`} label={L('Número grabado', 'Number stamped')} value={ley} onChange={typed(setLey)} max={1000} /><NumberField id={`${idp}-g`} label={L('Peso', 'Weight')} value={g} onChange={typed(setG)} unit="g" decimals={3} max={100000} /></div>
       </>}
-      result={<>
-        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L(`ley ${ley}`, `${ley} fineness`)}`} value={legal ? (metal === 'oro' ? L(`${dec(karatOfLey(ley), 1, lang)} kilates`, `${dec(karatOfLey(ley), 1, lang)} karat`) : L('Plata legal', 'Legal silver')) : L('No es una ley legal', 'Not a legal fineness')} sub={legal ? L(`${dec(ley / 10, 1, lang)} % de ${metal} puro como mínimo, sin tolerancia en menos.`, `At least ${dec(ley / 10, 1, 'en')}% pure ${metal === 'oro' ? 'gold' : 'silver'}, with no tolerance below.`) : L(`En España, las leyes de ${metal} son ${list.join(', ')}. Pide un ensayo antes de vender.`, `In Spain the legal ${metal === 'oro' ? 'gold' : 'silver'} finenesses are ${list.join(', ')}. Ask for an assay before you sell.`)} />
+      result={kind === 'gramo' ? <>
+        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${legal ? L(`1 gramo de ${metal} de ${ley}${metal === 'oro' ? ` (${dec(karatOfLey(ley), 1, lang)} kilates)` : ''} vale`, `1 gram of ${ley} ${metal === 'oro' ? 'gold' : 'silver'} is worth`) : L(`el número ${ley}`, `${ley} fineness`)}`} value={legal ? eur2(gramPrice(ley, spot[m].eurPerOz), lang) : L('No es una ley legal', 'Not a legal fineness')} sub={legal ? L(`El metal, al precio de las ${timeOf(spot, lang, m)}. Tu pieza de ${dec(g, 3, lang)} g: ${eur(value, lang)}. Un comprador paga menos.`, `The metal, at ${timeOf(spot, lang, m)}. Your ${dec(g, 3, 'en')} g piece: ${eur(value, lang)}. A buyer pays less.`) : L(`En España, las leyes de ${metal} son ${list.join(', ')}. Pide un ensayo antes de vender.`, `In Spain the legal ${metal === 'oro' ? 'gold' : 'silver'} finenesses are ${list.join(', ')}. Ask for an assay before you sell.`)} />
+        {metal === 'oro' && <Table caption={L('Un gramo de oro según su ley', 'One gram of gold by fineness')}>
+          {leyTable(spot.XAU.eurPerOz).map((r) => <Row key={r.ley} label={L(`1 g de ${r.ley} (${r.k} kilates)`, `1 g of ${r.ley} (${r.k}k)`)} value={eur2(r.gram, lang)} strong={r.ley === ley} />)}
+        </Table>}
+      </> : <>
+        <Big label={`${example ? L('Ejemplo: ', 'Example: ') : ''}${L(`el número ${ley}`, `${ley} fineness`)}`} value={legal ? (metal === 'oro' ? L(`${dec(karatOfLey(ley), 1, lang)} kilates`, `${dec(karatOfLey(ley), 1, lang)} karat`) : L('Plata legal', 'Legal silver')) : L('No es una ley legal', 'Not a legal fineness')} sub={legal ? L(`${dec(ley / 10, 1, lang)} % de ${metal} puro como mínimo: una pieza no puede llevar menos de lo que marca.`, `At least ${dec(ley / 10, 1, 'en')}% pure ${metal === 'oro' ? 'gold' : 'silver'}, with no tolerance below.`) : L(`En España, las leyes de ${metal} son ${list.join(', ')}. Pide un ensayo antes de vender.`, `In Spain the legal ${metal === 'oro' ? 'gold' : 'silver'} finenesses are ${list.join(', ')}. Ask for an assay before you sell.`)} />
         <Table caption={L('Valor de la pieza', 'Value of the piece')}>
           <Row label={L('Metal puro que contiene', 'Pure metal inside')} value={grams(g * ley / 1000, 3, lang)} />
           <Row label={L('Valor del metal', 'Metal value')} value={eur(value, lang)} strong />

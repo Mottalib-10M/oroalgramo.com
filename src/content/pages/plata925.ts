@@ -15,10 +15,10 @@ export default definePage({
     ],
     body: (h) => `
 <h2>Plata 925: precio según el peso</h2>
-${h.table(['Peso', 'Plata pura', 'Valor en 925'], [100, 250, 500, 1000, 2000, 5000].map((g) => [h.num(g, 0) + ' g', h.num(g * 0.925, 0) + ' g', h.live(h.at(g, 925, 'XAG'), 'XAG')]), 'Con el precio de la plata de las ' + h.whenOf('XAG') + '.')}
+${h.table(['Peso', 'Plata pura', 'Valor en 925'], [100, 250, 500, 1000, 2000, 5000].map((g) => [h.num(g, 0) + ' g', h.num(g * 0.925, 0) + ' g', h.live(h.at(g, 925, 'XAG'), 'XAG')]), 'Con el precio de la plata del ' + h.whenOf('XAG') + '.')}
 <p>Un kilo de plata de 925 vale ${h.live(h.at(1000, 925, 'XAG'), 'XAG')}; uno de 800, ${h.live(h.at(1000, 800, 'XAG'), 'XAG')}. La diferencia por kilo es de ${h.live(h.at(1000, 125, 'XAG'), 'XAG')}: merece la pena separar las piezas por ley.</p>
 <h2>Qué pesar y qué no</h2>
-<p>Las piezas grandes de plata pueden llevar partes que no son plata: hojas de acero, refuerzos, rellenos, bases. La ${h.src('ley17', 'Ley 17/1985')} permite en su artículo 8 que el reglamento regule el acoplamiento de metales industriales y materiales no metálicos en objetos de metal precioso, así que su presencia no es un fraude, pero tampoco vale como plata. Pesa solo lo que es plata o descuenta una estimación.</p>
+<p>Las piezas grandes de plata pueden llevar partes que no son plata: hojas de acero, refuerzos, rellenos, bases. La ${h.src('ley17', 'norma española de metales preciosos')} permite en su artículo 8 que el reglamento regule el acoplamiento de metales industriales y materiales no metálicos en objetos de metal precioso, así que su presencia no es un fraude, pero tampoco vale como plata. Pesa solo lo que es plata o descuenta una estimación.</p>
 <h2>Vender plata</h2>
 <p>Pide presupuesto a dos comercios con el peso y la ley de cada grupo y compáralos en porcentaje del metal. La ${h.a('vender', 'comparación de ofertas')} sirve igual para la plata si conviertes primero cada presupuesto en porcentaje con la calculadora de arriba.</p>
 <!--tool:stamp-->

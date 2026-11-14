@@ -15,7 +15,7 @@ export default definePage({
     ],
     body: (h) => `
 <h2>Precio de la onza de oro hoy en euros, en gramos y en kilos</h2>
-${h.table(['Unidad', 'Gramos', 'Oro puro, valor ahora'], [['1 gramo', 1], ['1 onza troy', 31.1034768], ['100 gramos', 100], ['1 kilo', 1000]].map(([n, g]) => [String(n), h.dec(Number(g), 4), h.live(h.at(Number(g), 1000))]), 'Oro puro (1000 milésimas), con la cotización de las ' + h.when + '.')}
+${h.table(['Unidad', 'Gramos', 'Oro puro, valor ahora'], [['1 gramo', 1], ['1 onza troy', 31.1034768], ['100 gramos', 100], ['1 kilo', 1000]].map(([n, g]) => [String(n), h.dec(Number(g), 4), h.live(h.at(Number(g), 1000))]), 'Oro puro (1000 milésimas), con la cotización del ' + h.when + '.')}
 <p>La onza troy pesa {oz} gramos según la ${h.src('nistB9', 'guía del NIST')}: 480 granos de 64,79891 miligramos. La onza común, la de los pesos ingleses de cocina, pesa unos 28,35 gramos, un 9 % menos. Si alguien te habla de onzas, pregunta cuál.</p>
 <h2>De la onza al gramo de tu joya</h2>
 <p>Para pasar del precio de la onza al de un gramo de tu pieza, divide entre {oz2} y multiplica por la ley: un gramo de 750 vale tres cuartos del gramo puro. Es la cuenta de todas las páginas por ley, como la del ${h.a('k18', 'oro de 18 kilates')} o la del ${h.a('k24', 'oro de 24 kilates')}.</p>

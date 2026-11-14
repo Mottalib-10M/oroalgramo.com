@@ -22,6 +22,13 @@ const body = replierSections(fill(H.body(helpers(lang)), lang), 0, lang === 'es'
 const parts = body.split(/<!--tool:([a-z]+)-->/);
 const path = route('home', lang);
 const ui = t(lang);
+// Phrase-réponse au-dessus du calculateur (testeurs naïfs du 2026-11-14, 3 sur 3 : « aucun prix au premier écran »
+// pour qui cherche « precio del oro hoy por gramo »). Mêmes spans que le texte : recalculés au cours du moment.
+const hh = helpers(lang);
+const g = (ley: number) => `<strong>${hh.live(hh.at(1, ley), 'XAU', 'eur2')}</strong>`;
+const prix = lang === 'es'
+  ? `Último precio, ${hh.when}: un gramo de oro de 24 kilates (999) vale ${g(999)} y uno de 18 kilates (750), ${g(750)}. De 14 kilates (585): ${g(585)}; de 9 kilates (375): ${g(375)}.`
+  : `Latest price, ${hh.when}: a gram of 24 karat gold (999) is worth ${g(999)} and a gram of 18 karat (750), ${g(750)}. 14 karat (585): ${g(585)}; 9 karat (375): ${g(375)}.`;
 const jsonLd = [organizationSchema(lang), websiteSchema(lang), webApplicationSchema({ name: x.h1, description: x.description, path, lang }), webPageSchema({ name: x.h1, description: x.description, path, lang }), faqSchema(x.faqs, lang)];
 const sources = ['goldApi', 'ley17', 'lirpf', 'itp', 'liva', 'l7_2012', 'nistB9'].map((k) => ({ name: P.sources[k].label[lang], url: P.sources[k].url }));
 const cats = navCategories(lang, false);
@@ -32,6 +39,7 @@ const start = lang === 'es'
 <PageLayout title={x.title} description={x.description} lang={lang} jsonLd={jsonLd} faqs={x.faqs} sources={sources}>
   <h1 class="mb-1 text-[1.6rem] font-bold leading-tight text-navy-900 sm:text-3xl">{x.h1}</h1>
   <p class="mb-3 text-navy-700">{x.lead}</p>
+  <p class="mb-3 rounded-lg border border-accent-200 bg-accent-50/60 px-3 py-2 text-navy-900" data-prix-du-jour set:html={prix} />
   <div class="mb-4" data-outil><Tool client:load tool="board" lang={lang} idp="b" ley={750} grams={10} /></div>
   <aside class="mb-8 rounded-lg border border-accent-200 bg-accent-50/60 p-4" data-chrome aria-label={lang === 'es' ? 'Empieza por tu caso' : 'Start from your situation'}>
     <p class="mb-2 font-semibold text-navy-900">{lang === 'es' ? '¿Tu caso es otro? Empieza por aquí' : 'A different situation? Start here'}</p>

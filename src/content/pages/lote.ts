@@ -15,10 +15,10 @@ export default definePage({
     ],
     body: (h) => `
 <h2>Valor del oro usado por grupo de ley</h2>
-<p>Con el ejemplo de la calculadora, 8 g de 750, 4 g de 585 y 3 g de 375, el lote contiene ${h.dec(8 * 0.75 + 4 * 0.585 + 3 * 0.375, 3)} g de oro puro y vale ${h.live(h.at(8, 750) + h.at(4, 585) + h.at(3, 375))} a las ${h.when}. Si un comprador pagara los 15 gramos como si todo fuera de 375, el metal reconocido sería ${h.live(h.at(15, 375))}: una diferencia de ${h.live(h.at(8, 750) + h.at(4, 585) - h.at(12, 375))}.</p>
-${h.table(['Grupo', 'Peso', 'Valor del metal'], [[750, 8], [585, 4], [375, 3]].map(([l, g]) => ['Ley ' + l, g + ' g', h.live(h.at(g, l))]), 'Ejemplo del calculador, con la cotización de las ' + h.when + '.')}
+<p>Con el ejemplo de la calculadora, 8 g de 750, 4 g de 585 y 3 g de 375, el lote contiene ${h.dec(8 * 0.75 + 4 * 0.585 + 3 * 0.375, 3)} g de oro puro y vale ${h.live(h.at(8, 750) + h.at(4, 585) + h.at(3, 375))} el ${h.when}. Si un comprador pagara los 15 gramos como si todo fuera de 375, el metal reconocido sería ${h.live(h.at(15, 375))}: una diferencia de ${h.live(h.at(8, 750) + h.at(4, 585) - h.at(12, 375))}.</p>
+${h.table(['Grupo', 'Peso', 'Valor del metal'], [[750, 8], [585, 4], [375, 3]].map(([l, g]) => ['Ley ' + l, g + ' g', h.live(h.at(g, l))]), 'Ejemplo del calculador, con la cotización del ' + h.when + '.')}
 <h2>Piezas sin marca y piezas raras</h2>
-<p>Una pieza sin número puede ser de oro, chapada o de otro metal. La ${h.src('ley17', 'Ley 17/1985')} deja fuera de su ámbito los objetos de más de cien años, que a menudo no llevan contraste. Para no inflar el valor, cuenta esas piezas a 375 o pide un ensayo. Las que llevan un número que no es una ley española, como 333 o 875, míralas en el ${h.a('contraste', 'lector de contrastes')}.</p>
+<p>Una pieza sin número puede ser de oro, chapada o de otro metal. La ${h.src('ley17', 'norma española de metales preciosos')} deja fuera de su ámbito los objetos de más de cien años, que a menudo no llevan contraste. Para no inflar el valor, cuenta esas piezas a 375 o pide un ensayo. Las que llevan un número que no es una ley española, como 333 o 875, míralas en el ${h.a('contraste', 'lector de contrastes')}.</p>
 <h2>Después: la oferta</h2>
 <p>Con el valor de cada grupo, pide al comprador precio por grupo y pasa cada oferta a porcentaje con el ${h.a('offer', 'comprobador')}.</p>
 <!--tool:offer-->

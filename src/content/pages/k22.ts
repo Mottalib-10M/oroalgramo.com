@@ -7,21 +7,21 @@ export default definePage({
     title: 'Precio del oro de 22 kilates hoy por gramo: ley 916',
     description: 'Precio del oro de 22 kilates hoy por gramo en euros, con la hora: la ley 916 en joyas de India y del Golfo y en monedas, y qué pasa con el 21 kilates.',
     h1: 'Precio del oro de 22 kilates hoy, por gramo',
-    resume: 'El precio del oro de 22 kilates por gramo es once doceavos del precio del gramo de oro puro: una pieza marcada 916 lleva 916 milésimas de oro. Es una de las cinco leyes del oro admitidas por la Ley 17/1985, aunque en la joyería española casi no se fabrica; llega sobre todo en joyas traídas de India, Pakistán o los países del Golfo, donde el oro se compra como ahorro, y en algunas monedas de oro con aleación de cobre. La calculadora de abajo da el valor de cualquier peso de 916 con la cotización de gold-api.com y su hora. Si tu pieza lleva 875 o la indicación 21K, no es una ley admitida en España: calcula su valor con la lectura de contrastes y pide un ensayo antes de vender, porque el comprador pagará por el oro que encuentre.',
+    resume: 'El precio del oro de 22 kilates por gramo es once doceavos del precio del gramo de oro puro: una pieza marcada 916 lleva 916 milésimas de oro. Es una de las cinco leyes del oro admitidas por la norma española de metales preciosos, aunque en la joyería española casi no se fabrica; llega sobre todo en joyas traídas de India, Pakistán o los países del Golfo, donde el oro se compra como ahorro, y en algunas monedas de oro con aleación de cobre. La calculadora de abajo da el valor de cualquier peso de 916 con la cotización de gold-api.com y su hora. Si tu pieza lleva 875 o la indicación 21K, no es una ley admitida en España: calcula su valor con la lectura de contrastes y pide un ensayo antes de vender, porque el comprador pagará por el oro que encuentre.',
     faqs: [
       { q: '¿Puedo vender en España joyas de 22 kilates compradas fuera?', a: 'Sí. El 916 es una de las leyes legales en España, así que una pulsera o un collar de 22 kilates comprado en la India o en el Golfo se puede vender aquí como tal. El comprador las paga por gramo de 916; pide que las pese aparte de tus piezas de 750, porque valen bastante más por gramo y no deben mezclarse.' },
-      { q: '¿Y las joyas de 21 kilates del Golfo?', a: 'El 875 no está en la lista de leyes de la Ley 17/1985, así que no se venden en España como oro de 875. Se pueden vender como metal: el comprador ensaya la pieza y paga el oro que contiene.' },
-      { q: '¿Las monedas de 22 kilates son oro de inversión?', a: 'Pueden serlo: el artículo 140 de la Ley del IVA admite monedas de {coinLey} milésimas o más, acuñadas después de {coinYear}, con curso legal y vendidas a un precio que no supere en más del {coinPrem} el valor de su oro.' },
+      { q: '¿Y las joyas de 21 kilates del Golfo?', a: 'El 875 no está en la lista de leyes de la norma española de metales preciosos, así que no se venden en España como oro de 875. Se pueden vender como metal: el comprador ensaya la pieza y paga el oro que contiene.' },
+      { q: '¿Las monedas de 22 kilates son oro de inversión?', a: 'Pueden serlo: la norma del IVA admite monedas de {coinLey} milésimas o más, acuñadas después de {coinYear}, que sean o hayan sido dinero oficial (curso legal) en su país y vendidas a un precio que no supere en más del {coinPrem} el valor de su oro. Una joya de 916, en cambio, nunca lo es.' },
     ],
     body: (h) => `
 <h2>Precio del oro de 22 kilates por peso</h2>
-${h.table(['Peso', 'Oro puro', 'Valor en 916'], [5, 8, 10, 20, 40, 100].map((g) => [g + ' g', h.dec(g * 0.916, 3) + ' g', h.live(h.at(g, 916))]), 'Con la cotización de las ' + h.when + '.')}
+${h.table(['Peso', 'Oro puro', 'Valor en 916'], [5, 8, 10, 20, 40, 100].map((g) => [g + ' g', h.dec(g * 0.916, 3) + ' g', h.live(h.at(g, 916))]), 'Con la cotización del ' + h.when + '.')}
 <p>Las joyas de 22 kilates suelen ser pesadas: un juego de pulseras o un collar de boda puede pasar de 50 gramos. Con ese peso, cada punto de porcentaje de una oferta son ${h.live(h.at(50, 916) / 100)} por cada 50 gramos.</p>
 <h2>916 frente a 750</h2>
 <p>Un gramo de 916 vale ${h.live(h.at(1, 916), 'XAU', 'eur2')} y uno de 750, ${h.live(h.at(1, 750), 'XAU', 'eur2')}. La diferencia es de un 22 % a favor del 916. Si un comprador acostumbrado al 750 aplica su precio a una joya de 916, pierdes esa diferencia: muestra el número grabado y pide el precio de esa ley.</p>
 <!--tool:offer-->
 <h2>Monedas y oro de inversión</h2>
-<p>Muchas monedas de oro se acuñan con 916 milésimas porque el cobre las hace más resistentes. La ${h.src('liva', 'Ley 37/1992')} las trata como oro de inversión, exento de IVA, si cumplen sus condiciones; compruébalo en la página de ${h.a('inversion', 'oro de inversión')}. La ${h.src('ley17', 'Ley 17/1985')} excluye de su ámbito las monedas con curso legal o que lo tuvieron.</p>
+<p>Muchas monedas de oro se acuñan con 916 milésimas porque el cobre las hace más resistentes. La ${h.src('liva', 'norma del IVA')} las trata como oro de inversión, exento de IVA, si cumplen sus condiciones; compruébalo en la página de ${h.a('inversion', 'oro de inversión')}. La ${h.src('ley17', 'norma española de metales preciosos')} excluye de su ámbito las monedas con curso legal o que lo tuvieron.</p>
 `,
   },
   en: {

@@ -25,7 +25,7 @@ export function SpotLine({ spot, metals, lang }: { spot: Spot; metals: Metal[]; 
         return (
           <p key={m}>
             <span className={`mr-1.5 inline-block h-2 w-2 shrink-0 rounded-full align-middle ${q.live ? 'bg-green-600' : 'bg-navy-400'}`} aria-hidden="true" />
-            <span>{q.live ? L(`Precio del ${name} en este momento`, `Live ${name} price`) : L(`Precio del ${name} registrado`, `${name[0].toUpperCase()}${name.slice(1)} price recorded`)}, {stamp(q.live ? q.at : SNAPSHOT.at[m], lang)}: <span className="tabular-nums font-medium text-navy-900">{eur2(finePerGram(q.eurPerOz), lang)}</span> {L(`el gramo de ${name} puro. Tu resultado usa este precio.`, `a gram of pure ${name}. Your result uses this price.`)}</span>
+            <span>{q.live ? L(`Precio del ${name} en este momento`, `Live ${name} price`) : L(`Precio del ${name} registrado`, `${name[0].toUpperCase()}${name.slice(1)} price recorded`)}, {stamp(q.live ? q.at : SNAPSHOT.at[m], lang)}: <span className="tabular-nums font-medium text-navy-900">{eur2(finePerGram(q.eurPerOz), lang)}</span> {L(`el gramo de ${name} 100 % puro${m === 'XAU' ? ' (una pieza de 999 tiene un poco menos)' : ''}. Tu resultado usa este precio.`, `a gram of pure ${name}. Your result uses this price.`)}</span>
           </p>
         );
       })}
@@ -33,7 +33,7 @@ export function SpotLine({ spot, metals, lang }: { spot: Spot; metals: Metal[]; 
       <details className="mt-0.5">
         <summary className="cursor-pointer underline hover:text-navy-900">{L('De dónde sale este precio', 'Where this price comes from')}</summary>
         <p className="mt-1">{L(
-          `Es la cotización internacional del metal puro en euros, de gold-api.com, un servicio gratuito: ${metals.map((m) => eur(spot[m].eurPerOz, lang)).join(' y ')} la onza troy (${'31,1'} g), la unidad en la que se cotizan los metales preciosos. Un comprador paga menos. La página lo lee una vez al abrirse, y las tablas y ejemplos del texto se calculan con el mismo precio.`,
+          `Es la cotización internacional del metal puro en euros, de gold-api.com, un servicio gratuito: ${metals.map((m) => eur(spot[m].eurPerOz, lang)).join(' y ')} la onza troy (31,1 g), la unidad en la que se cotizan los metales preciosos. Un comprador paga menos. La página lo lee una vez al abrirse, y las tablas y ejemplos del texto se calculan con el mismo precio.`,
           `It is the international price of the pure metal in euros, from gold-api.com, a free price service: ${metals.map((m) => eur(spot[m].eurPerOz, lang)).join(' and ')} per troy ounce (31.1 g), the unit precious metals are priced in. A buyer pays less. The page reads it once when it opens, and the tables and examples in the text use the same price.`)}</p>
         <p className="mt-1">
           <button type="button" className="underline hover:text-navy-900" onClick={() => setNote(refreshSpot(metals) ? L('Buscando un precio más reciente…', 'Checking for a newer price…') : L('Espera unos segundos antes de volver a pedirlo.', 'Wait a few seconds before asking again.'))}>{L('Buscar un precio más reciente', 'Check for a newer price')}</button>
@@ -99,7 +99,7 @@ export function Table({ caption, children }: { caption: string; children: ReactN
 /** Leyes d'or de la Ley 17/1985 (art. 9.1), avec le kilate d'usage. */
 export function LeySelect({ id, value, onChange, lang, label }: { id: string; value: number; onChange: (l: number) => void; lang: Lang; label?: string }) {
   const L = tr(lang);
-  return <SelectField id={id} label={label ?? L('Ley del oro (contraste)', 'Gold fineness (hallmark)')} value={String(value)} onChange={(v) => onChange(Number(v))}
+  return <SelectField id={id} label={label ?? L('Ley del oro (pureza: el número grabado)', 'Gold fineness (hallmark)')} value={String(value)} onChange={(v) => onChange(Number(v))}
     options={P.gold.map((g) => ({ value: String(g.ley), label: L(`${g.ley} (${g.k} kilates)`, `${g.ley} (${g.k} karat)`) }))} />;
 }
 export function SilverSelect({ id, value, onChange, lang }: { id: string; value: number; onChange: (l: number) => void; lang: Lang }) {

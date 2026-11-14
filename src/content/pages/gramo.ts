@@ -1,13 +1,13 @@
 import { definePage } from '../../lib/page-types';
 export default definePage({
-  id: 'gramo', group: 'gold', order: 9, tool: 'stamp',
+  id: 'gramo', group: 'gold', order: 9, tool: 'stamp', toolProps: { kind: 'gramo' },
   related: ['k18', 'offer', 'onza', 'vender'], sources: ['ley17'],
   es: {
     slug: 'cuanto-vale-un-gramo-de-oro', nav: 'Cuánto vale un gramo de oro', card: 'El gramo de oro según la ley grabada: de 375 a 999',
     title: 'Gramo de oro hoy: cuánto vale en España según su ley',
     description: 'Cuánto vale un gramo de oro hoy en España: de 375 a 999 milésimas, con la hora del precio, y por qué depende del número grabado en la pieza y de quién compra.',
     h1: 'Cuánto vale un gramo de oro hoy',
-    resume: 'Cuánto vale un gramo de oro depende de una sola cosa además del precio del día: de cuánto oro puro hay en ese gramo. Un gramo de oro puro vale lo que marca la cotización dividida entre los {oz} gramos de una onza troy; un gramo de joya de 750 vale tres cuartos de eso; uno de 375, tres octavos. Por eso la pregunta tiene cinco respuestas legales en España, una por cada ley que admite la Ley 17/1985. Escribe abajo el número que ves grabado en tu pieza y su peso: la calculadora dice si es una ley legal, a cuántos kilates equivale y cuánto vale su metal, con la cotización de gold-api.com y la hora. Lo que te paguen por ese gramo será menos: el comprador tiene que fundir, refinar y ganar algo.',
+    resume: 'Cuánto vale un gramo de oro hoy depende de una sola cosa además del precio del día: de cuánto oro puro lleva ese gramo, es decir, de su ley o pureza. Un gramo de oro puro vale el precio internacional de la onza troy, la unidad de los mercados, dividido entre sus {oz2} gramos; un gramo de joya de 750 vale tres cuartos de eso; uno de 375, tres octavos. Por eso la pregunta tiene cinco respuestas en España, una por cada pureza que se puede vender: 999, 916, 750, 585 y 375. Escribe abajo el número que ves grabado en tu pieza y su peso: la calculadora da en grande lo que vale un gramo de esa ley y, debajo, el valor de tu pieza y el de un gramo de cada ley, con la hora del precio. Lo que te paguen por ese gramo será menos: el comprador tiene que fundir, refinar y ganar algo.',
     faqs: [
       { q: '¿Cuánto vale un gramo de oro de 18 kilates?', a: 'Tres cuartos del precio del gramo de oro puro, porque 18 kilates son 750 milésimas. La tabla de esta página lo da con el precio del momento y su hora. Es el valor del metal: un compro oro te pagará una parte de esa cifra, porque descuenta su margen, el refinado y el impuesto que paga al comprarte.' },
       { q: '¿Cuánto pagan por un gramo de oro en un compro oro?', a: 'Ningún organismo lo publica y cada comercio fija el suyo, a veces distinto según la ley y el peso del lote. Lo único objetivo es pasar su oferta a porcentaje del valor del metal y compararla con otra oferta el mismo día, por las mismas piezas. El comprobador de ofertas de este sitio hace esa cuenta con tu peso y tu precio.' },
@@ -15,8 +15,8 @@ export default definePage({
     ],
     body: (h) => `
 <h2>Cuánto vale un gramo de oro según la ley</h2>
-${h.table(['Ley grabada', 'Kilates', 'Un gramo vale ahora'], h.P.gold.map((g) => [String(g.ley), String(g.k), h.live(h.at(1, g.ley), 'XAU', 'eur2')]), 'Con la cotización de las ' + h.when + '.')}
-<p>Las cinco leyes son las del artículo 9 de la ${h.src('ley17', 'Ley 17/1985')}. Si tu pieza lleva otro número, por ejemplo 875 o 333, no tiene una ley legal en España y su valor depende de un ensayo.</p>
+${h.table(['Ley grabada', 'Kilates', 'Un gramo vale ahora'], h.P.gold.map((g) => [String(g.ley), String(g.k), h.live(h.at(1, g.ley), 'XAU', 'eur2')]), 'Con la cotización del ' + h.when + '.')}
+<p>Las cinco leyes son las de la ${h.src('ley17', 'norma española de metales preciosos')}. Si tu pieza lleva otro número, por ejemplo 875 o 333, no tiene una ley legal en España y su valor depende de un ensayo.</p>
 <h2>Del gramo de metal al gramo que te pagan</h2>
 <p>El precio que da esta página es el del metal. Un compro oro paga un porcentaje de ese valor, que varía de un comercio a otro. Para saber si una oferta por gramo es razonable, divídela entre el valor del gramo de esa ley: si te ofrecen por un gramo de 750 lo que vale medio gramo, te pagan el 50 %. El ${h.a('offer', 'comprobador de ofertas')} lo hace con el total.</p>
 <!--tool:offer-->

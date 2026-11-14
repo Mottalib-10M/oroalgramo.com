@@ -7,21 +7,21 @@ export default definePage({
     title: 'Precio del oro de 14 kilates hoy por gramo: ley 585',
     description: 'Precio del oro de 14 kilates hoy por gramo en euros, con la hora: qué es la ley 585, cómo distinguirla del 750 en un lote y cuánto vale una cadena fina.',
     h1: 'Precio del oro de 14 kilates hoy, por gramo',
-    resume: 'El precio del oro de 14 kilates por gramo es algo más de la mitad del precio del gramo de oro puro: una pieza marcada 585 lleva 585 milésimas de oro y 415 de otros metales. Es una ley legal en España según el artículo 9 de la Ley 17/1985, pero menos habitual que el 750 en la joyería nacional; aparece sobre todo en cadenas y pendientes importados, en joyería de Alemania, Italia o Estados Unidos y en algunos relojes. La calculadora de abajo da el valor de cualquier peso de 585 con la cotización de gold-api.com y su hora. Comparado con una pieza de 750 del mismo peso, una de 585 vale un 22 % menos como metal, y esa diferencia es la que se pierde si un lote mezclado se paga todo a la ley más baja o si una pieza de 750 se confunde con una de 585.',
+    resume: 'El precio del oro de 14 kilates por gramo es algo más de la mitad del precio del gramo de oro puro: una pieza marcada 585 lleva 585 milésimas de oro y 415 de otros metales. Es una ley legal en España según la norma española de metales preciosos, pero menos habitual que el 750 en la joyería nacional; aparece sobre todo en cadenas y pendientes importados, en joyería de Alemania, Italia o Estados Unidos y en algunos relojes. La calculadora de abajo da el valor de cualquier peso de 585 con la cotización de gold-api.com y su hora. Comparado con una pieza de 750 del mismo peso, una de 585 vale un 22 % menos como metal, y esa diferencia es la que se pierde si un lote mezclado se paga todo a la ley más baja o si una pieza de 750 se confunde con una de 585.',
     faqs: [
       { q: '¿Cómo distingo una pieza de 585 de una de 750?', a: 'Solo por el número grabado o por un ensayo: a simple vista el color depende más de la aleación que de la ley. Busca 585 o 14K en el cierre o en el interior. Si no ves nada, no supongas la ley más alta.' },
-      { q: '¿El oro de 14 kilates se puede vender en España?', a: 'Sí. El 585 es una de las cinco leyes del oro que admite la Ley 17/1985, junto con 999, 916, 750 y 375. Un compro oro lo compra igual que el 750, pagando por gramo de esa ley, que vale algo menos de seis décimas del gramo puro. Pide que lo pese aparte para que no lo mezcle con tus piezas de 18 kilates.' },
+      { q: '¿El oro de 14 kilates se puede vender en España?', a: 'Sí. El 585 es una de las cinco leyes del oro que admite la norma española de metales preciosos, junto con 999, 916, 750 y 375. Un compro oro lo compra igual que el 750, pagando por gramo de esa ley, que vale algo menos de seis décimas del gramo puro. Pide que lo pese aparte para que no lo mezcle con tus piezas de 18 kilates.' },
       { q: '¿Por qué 585 y no 583?', a: 'Catorce veinticuatroavos son 583,3 milésimas, pero la ley europea se fijó en 585 para dejar un pequeño margen sobre la cifra exacta. En España la ley es 585 y no se admite tolerancia en menos: una pieza marcada 585 debe contener al menos esas milésimas. La calculadora usa 585, que es lo que dice la marca y lo que paga el comprador.' },
     ],
     body: (h) => `
 <h2>Precio del oro de 14 kilates por peso</h2>
-${h.table(['Peso', 'Oro puro', 'Valor en 585'], [1, 2, 3, 5, 8, 12].map((g) => [g + ' g', h.dec(g * 0.585, 3) + ' g', h.live(h.at(g, 585))]), 'Con la cotización de las ' + h.when + '.')}
+${h.table(['Peso', 'Oro puro', 'Valor en 585'], [1, 2, 3, 5, 8, 12].map((g) => [g + ' g', h.dec(g * 0.585, 3) + ' g', h.live(h.at(g, 585))]), 'Con la cotización del ' + h.when + '.')}
 <p>Un gramo de 585 vale ahora ${h.live(h.at(1, 585), 'XAU', 'eur2')}, frente a ${h.live(h.at(1, 750), 'XAU', 'eur2')} un gramo de 750. Si tienes las dos leyes, pésalas aparte.</p>
 <h2>Un lote con 585 y 750: no lo pesen junto</h2>
 <p>Es habitual llegar al mostrador con una bolsa de piezas sueltas. Si el comprador lo pesa todo junto y aplica el precio del 585 o del 375, las piezas de 750 se pagan muy por debajo. La ${h.a('lote', 'calculadora de lotes')} valora cada grupo por separado; úsala para pedir un precio por grupo.</p>
 <!--tool:lot-->
 <h2>Lo que dice la ley</h2>
-<p>La ${h.src('ley17', 'Ley 17/1985')} define la ley en milésimas, exige que sea constante en todo el objeto y no admite tolerancia en menos. Una pieza marcada 585 con menos oro no cumple la ley. Si dudas del grabado, un laboratorio de contraste puede ensayarla.</p>
+<p>La ${h.src('ley17', 'norma española de metales preciosos')} define la ley en milésimas, exige que sea constante en todo el objeto y no admite tolerancia en menos. Una pieza marcada 585 con menos oro no cumple la ley. Si dudas del grabado, un laboratorio de contraste puede ensayarla.</p>
 `,
   },
   en: {

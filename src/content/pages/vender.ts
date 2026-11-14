@@ -11,7 +11,7 @@ export default definePage({
     faqs: [
       { q: '¿Dónde vender oro al mejor precio?', a: 'No hay un tipo de comercio que pague siempre más. Joyerías, compro oro, casas de subastas y negociantes de lingotes pagan distinto según la pieza: el oro al peso, las joyas de firma o los lingotes. Pide al menos dos presupuestos el mismo día por las mismas piezas y compáralos en porcentaje del valor del metal, no en euros sueltos.' },
       { q: '¿Tengo que declarar la venta de oro en Hacienda?', a: 'Si vendes por más de lo que te costó, la ganancia va a la base del ahorro del IRPF, del {r1} al {r5}. Si vendes por menos, puedes declarar la pérdida y compensarla con otras ganancias. Necesitas saber lo que pagaste o el valor heredado, y guardar el recibo del comercio con el peso, la ley y el precio.' },
-      { q: '¿Me pagarán en efectivo?', a: 'Solo si la operación no llega a {cash}. A partir de ese importe, la Ley 7/2012 prohíbe el pago en efectivo cuando una de las partes es un comercio, y suma los pagos si la venta se fracciona. Lleva los datos de una cuenta para recibir una transferencia y pide que el recibo indique el medio de pago.' },
+      { q: '¿Me pagarán en efectivo?', a: 'Solo si la operación no llega a {cash}. A partir de ese importe, la norma contra el fraude fiscal prohíbe el pago en efectivo cuando una de las partes es un comercio, y suma los pagos si la venta se fracciona. Lleva los datos de una cuenta para recibir una transferencia y pide que el recibo indique el medio de pago.' },
     ],
     body: (h) => `
 <h2>Vender oro paso a paso</h2>
@@ -20,12 +20,12 @@ export default definePage({
 <li><strong>Calcula el valor del metal</strong> de cada grupo con la ${h.a('lote', 'calculadora de lotes')}. Ese es tu techo.</li>
 <li><strong>Pide dos o tres presupuestos</strong> el mismo día, con peso y ley por escrito.</li>
 <li><strong>Compara en porcentaje</strong> con la calculadora de esta página. Un presupuesto en euros sin el peso no se puede comparar.</li>
-<li><strong>Cobra y guarda el recibo.</strong> Te pedirán el DNI: es la obligación de registro del artículo 25 de la ${h.src('lo4_2015', 'Ley Orgánica 4/2015')}.</li>
+<li><strong>Cobra y guarda el recibo.</strong> Te pedirán el DNI: es la obligación de registro de la ${h.src('lo4_2015', 'norma de seguridad ciudadana')}.</li>
 </ol>
 <h2>Cuánto cambia vender bien</h2>
-${h.table(['Diferencia entre ofertas', 'En 12 g de 750'], [0.05, 0.1, 0.15, 0.2].map((s) => [h.pct(s, 0) + ' del metal', h.live(h.at(12, 750) * s)]), 'Con la cotización de las ' + h.when + '.')}
+${h.table(['Diferencia entre ofertas', 'En 12 g de 750'], [0.05, 0.1, 0.15, 0.2].map((s) => [h.pct(s, 0) + ' del metal', h.live(h.at(12, 750) * s)]), 'Con la cotización del ' + h.when + '.')}
 <h2>Pago e impuestos</h2>
-<p>El artículo 7 de la ${h.src('l7_2012', 'Ley 7/2012')} impide pagar en efectivo {cash} o más cuando interviene un comercio; el pago llegará por transferencia o cheque. Si la venta te deja ganancia respecto a lo que pagaste, tributa en el IRPF según la ${h.src('lirpf', 'Ley 35/2006')}: calcula cuánto con el ${h.a('irpf', 'cálculo del IRPF')}.</p>
+<p>El artículo 7 de la ${h.src('l7_2012', 'norma contra el fraude fiscal')} impide pagar en efectivo {cash} o más cuando interviene un comercio; el pago llegará por transferencia o cheque. Si la venta te deja ganancia respecto a lo que pagaste, tributa en el IRPF según la ${h.src('lirpf', 'norma del IRPF')}: calcula cuánto con el ${h.a('irpf', 'cálculo del IRPF')}.</p>
 <!--tool:gains-->
 `,
   },
