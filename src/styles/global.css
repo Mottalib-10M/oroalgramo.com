@@ -134,3 +134,6 @@ details.pli[open] > summary::after { transform: rotate(-135deg); }
 details.pli > summary:hover > h2 { color: var(--color-accent-700); }
 details.pli > :not(summary) { padding-left: 1rem; padding-right: 1rem; }
 details.pli > :last-child { padding-bottom: .5rem; }
+
+/* Champs en subgrid : quand le formulaire est étiré à la hauteur du résultat voisin, ses rangées ne doivent pas s'étirer (trous entre libellé, case et aide). */
+:where(form, div, fieldset):has(> .grid-rows-subgrid) { align-content: start; }
