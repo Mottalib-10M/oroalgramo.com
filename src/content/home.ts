@@ -20,6 +20,7 @@ export const HOME: Record<'es' | 'en', HomeText> = {
       { q: '¿El precio del gramo de oro es el mismo en toda España?', a: 'Sí. La cotización es un precio mundial por onza troy convertido a euros, así que un gramo de 750 contiene el mismo valor en Bilbao que en Sevilla. Lo que cambia de un sitio a otro es lo que ofrece cada comprador y el porcentaje del ITP, el impuesto que paga el comercio al comprarte, que fija cada comunidad.', open: true },
       { q: '¿A qué hora corresponde el precio de esta página?', a: 'A la hora que aparece junto a cada resultado, en hora de Madrid, que es la que gold-api.com da para el precio que devuelve. El oro cotiza casi todo el día de lunes a viernes y apenas se mueve el fin de semana. Para pedir otro más reciente, abre «De dónde sale este precio», bajo el calculador, y toca «Buscar un precio más reciente».' },
       { q: '¿Oro al Gramo compra oro o recomienda comercios?', a: 'No. Lo publica Radif Partners, que no compra, no vende, no guarda ni tasa oro, y no cobra comisión a quien lo hace. No muestra precios de comercios ni los clasifica. Su único trabajo es la cuenta: cuánto vale tu metal y qué parte de ese valor te paga una oferta.' },
+      { q: '¿Cambian en 2027 los impuestos al vender oro?', a: 'A 23 de noviembre de 2026 no hay ningún cambio publicado: la ganancia sigue en la base del ahorro del IRPF, con la escala del 19 al 30 % de la Ley 35/2006, que no tiene fecha de fin. Si una ley publicada en el BOE la cambia, la calculadora aplicará la nueva escala en cuanto se publique.' },
     ],
     body: (h) => {
       const off = exampleOffer(10, 750);
@@ -48,6 +49,8 @@ ${h.table(['Ley', 'Kilates de uso', 'Oro puro en 10 g', 'Precio del gramo ahora'
 <!--tool:gains-->
 <p>¿Compraste la joya antes de 1995? Pagarás menos impuestos, a veces casi nada. La calculadora no lo descuenta; lo explica la página de ${h.a('irpf', 'impuestos al vender oro')}.</p>
 
+<h2>Vender oro en 2027: lo que ya es oficial</h2>
+<p>Las leyes del oro (999, 916, 750, 585 y 375) las fija la ${h.src('ley17', 'Ley 17/1985')} y no cambian con el año: en 2027, lo que vale una pieza seguirá dependiendo solo del peso, de la ley y de la cotización del día. La escala del ahorro del IRPF, del {r1} al {r5}, está en la ${h.src('lirpf', 'Ley 35/2006')} sin fecha de fin; la versión consolidada del BOE leída el 11 de noviembre de 2026 no recoge ningún cambio para 2027. Si una ley publicada en el BOE la modifica, la calculadora aplicará la nueva escala en cuanto se publique.</p>
 <h2>Plata: 925, 800 y 999</h2>
 <p>La plata sigue la misma lógica con otras leyes: 999 para la plata fina de lingotes y monedas, 925 para la plata de ley de joyería y cubertería, 800 para muchos cubiertos y bandejas antiguos. Un gramo de plata 925 vale ahora ${h.live(h.at(1, 925, 'XAG'), 'XAG', 'eur2')}, unas ${h.num(h.at(1, 750) / h.at(1, 925, 'XAG'), 0)} veces menos que un gramo de oro de 750. Por eso con la plata importa el peso: una cubertería entera puede pesar kilos. La ${h.a('plata', 'calculadora de la plata')} da el valor por ley y peso.</p>
 
@@ -73,6 +76,7 @@ ${h.table(['Ley', 'Kilates de uso', 'Oro puro en 10 g', 'Precio del gramo ahora'
       { q: 'Is the gold price per gram the same everywhere in Spain?', a: 'Yes. The price is a world price per troy ounce turned into euros, so a gram of 750 holds the same value in Málaga as in Barcelona. What differs is what each buyer offers and the transfer tax rate each region sets on the purchase.', open: true },
       { q: 'What time does the gold price on this page refer to?', a: 'The time printed beside each result, in Madrid time, which is the time gold-api.com gives for the price it returned. Gold trades almost round the clock on weekdays and barely moves at weekends. The button under the calculator asks for a newer price.' },
       { q: 'Does Oro al Gramo buy gold or recommend buyers?', a: 'No. It is published by Radif Partners, which does not buy, sell, store or assay gold and takes no commission from anyone who does. It shows no shop prices and ranks no shops. Its only job is the arithmetic: what your metal is worth and what share of that an offer pays.' },
+      { q: 'Does tax on selling gold change in 2027?', a: 'No change has been published as of 23 November 2026: the gain stays in the income tax savings base, with the 19 to 30% scale of Act 35/2006, which has no end date. If a law published in the BOE changes it, the calculator will apply the new scale as soon as it is published.' },
     ],
     body: (h) => {
       const off = exampleOffer(10, 750);
@@ -101,6 +105,8 @@ ${h.table(['Fineness', 'Karat', 'Pure gold in 10 g', 'Gram price now'], h.P.gold
 <!--tool:gains-->
 <p>Jewellery bought before 31 December 1994 falls under a transitional regime that reduces the part of the gain built up to 20 January 2006. The ${h.a('irpf', 'tax on selling gold')} page explains it.</p>
 
+<h2>Selling gold in 2027: what is already official</h2>
+<p>The gold standards (999, 916, 750, 585 and 375) are set by ${h.src('ley17', 'Act 17/1985')} and do not change with the year: in 2027 a piece will still be worth its weight, its fineness and the day’s price. The income tax savings scale, from {r1} to {r5}, is written in ${h.src('lirpf', 'Act 35/2006')} with no end date; the consolidated text read in the BOE on 11 November 2026 shows no change for 2027. If a law published in the BOE amends it, the calculator will apply the new scale as soon as it is published.</p>
 <h2>Silver: 925, 800 and 999</h2>
 <p>Silver works the same way with other finenesses: 999 for fine silver bars and coins, 925 for sterling jewellery and cutlery, 800 for much older cutlery and trays. A gram of 925 silver is now worth ${h.live(h.at(1, 925, 'XAG'), 'XAG', 'eur2')}, roughly ${h.num(h.at(1, 750) / h.at(1, 925, 'XAG'), 0)} times less than a gram of 750 gold. That is why weight matters with silver: a full cutlery set can weigh kilos. The ${h.a('plata', 'silver calculator')} values it by fineness and weight.</p>
 
