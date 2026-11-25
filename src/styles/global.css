@@ -4,7 +4,7 @@
 @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 700; font-display: swap; src: url('/fonts/inter-var.woff2') format('woff2'); }
 @theme {
   --color-navy-50: #f8fafc; --color-navy-100: #f1f5f9; --color-navy-200: #e2e8f0; --color-navy-300: #cbd5e1; --color-navy-400: #94a3b8; --color-navy-500: #64748b; --color-navy-600: #475569; --color-navy-700: #334155; --color-navy-800: #1e293b; --color-navy-900: #0f172a; --color-navy-950: #020617;
-  --color-accent-50: #fdf8ed; --color-accent-100: #faf0d6; --color-accent-200: #f4e2ae; --color-accent-300: #edce78; --color-accent-400: #e6ba42; --color-accent-500: #8A6A12; --color-accent-600: #755a0f; --color-accent-700: #614a0d; --color-accent-800: #4d3b0a; --color-accent-900: #3d2f08;
+  --color-accent-50: #f9efef; --color-accent-100: #f2dcdd; --color-accent-200: #e6b9bb; --color-accent-300: #d48a8d; --color-accent-400: #bf5054; --color-accent-500: #AA151B; --color-accent-600: #901217; --color-accent-700: #770f13; --color-accent-800: #5e0c0f; --color-accent-900: #47090b;
   --color-success: #15803d; --color-warning: #b45309; --color-error: #dc2626;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
@@ -139,3 +139,14 @@ details.pli > :last-child { padding-bottom: .5rem; }
 :where(form, div, fieldset):has(> .grid-rows-subgrid) { align-content: start; }
 /* Dans une grille, le cadre du formulaire s'arrête sous ses champs au lieu de s'étirer à la hauteur du résultat. */
 .grid > form:has(> .grid-rows-subgrid) { align-self: start; }
+
+/* Identité visuelle du 2026-11-24 (refonte favicon, logo et page, couleurs du pays) : en-tête plein (BaseLayout),
+   titres dans la couleur forte, H1 et gros chiffres en #AA151B, encadrés teintés à barre d'accent, raccourcis en boutons pleins. */
+main h1 { color: #AA151B; letter-spacing: -0.02em; }
+main h2, main details summary { color: #AA151B; }
+main .bg-accent-50 { border-left: 5px solid #F1BF00; }
+main a[class*="border-accent"], main a[class*="bg-accent-50"] { background: #AA151B; color: #fff; border-color: #AA151B; border-radius: 10px; }
+main a[class*="border-accent"] *, main a[class*="bg-accent-50"] * { color: inherit; }
+main table thead th { color: #AA151B; border-bottom: 2px solid #F1BF00; }
+main details[open] > summary, main details > summary:hover { background: #f9efef; }
+main [class*="text-3xl"], main [class*="text-4xl"] { color: #AA151B; }
