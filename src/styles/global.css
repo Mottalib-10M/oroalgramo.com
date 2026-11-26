@@ -4,7 +4,7 @@
 @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400 700; font-display: swap; src: url('/fonts/inter-var.woff2') format('woff2'); }
 @theme {
   --color-navy-50: #f8fafc; --color-navy-100: #f1f5f9; --color-navy-200: #e2e8f0; --color-navy-300: #cbd5e1; --color-navy-400: #94a3b8; --color-navy-500: #64748b; --color-navy-600: #475569; --color-navy-700: #334155; --color-navy-800: #1e293b; --color-navy-900: #0f172a; --color-navy-950: #020617;
-  --color-accent-50: #f9efef; --color-accent-100: #f2dcdd; --color-accent-200: #e6b9bb; --color-accent-300: #d48a8d; --color-accent-400: #bf5054; --color-accent-500: #AA151B; --color-accent-600: #901217; --color-accent-700: #770f13; --color-accent-800: #5e0c0f; --color-accent-900: #47090b;
+  --color-accent-50: #F9EFEF; --color-accent-100: #F3DEDF; --color-accent-200: #E6B9BB; --color-accent-300: #D48A8D; --color-accent-400: #C2575B; --color-accent-500: #AA151B; --color-accent-600: #961218; --color-accent-700: #811015; --color-accent-800: #660D10; --color-accent-900: #4C090C;
   --color-success: #15803d; --color-warning: #b45309; --color-error: #dc2626;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
@@ -140,13 +140,70 @@ details.pli > :last-child { padding-bottom: .5rem; }
 /* Dans une grille, le cadre du formulaire s'arrête sous ses champs au lieu de s'étirer à la hauteur du résultat. */
 .grid > form:has(> .grid-rows-subgrid) { align-self: start; }
 
-/* Identité visuelle du 2026-11-24 (refonte favicon, logo et page, couleurs du pays) : en-tête plein (BaseLayout),
-   titres dans la couleur forte, H1 et gros chiffres en #AA151B, encadrés teintés à barre d'accent, raccourcis en boutons pleins. */
-main h1 { color: #AA151B; letter-spacing: -0.02em; }
-main h2, main details summary { color: #AA151B; }
-main .bg-accent-50 { border-left: 5px solid #F1BF00; }
-main a[class*="border-accent"], main a[class*="bg-accent-50"] { background: #AA151B; color: #fff; border-color: #AA151B; border-radius: 10px; }
-main a[class*="border-accent"] *, main a[class*="bg-accent-50"] * { color: inherit; }
-main table thead th { color: #AA151B; border-bottom: 2px solid #F1BF00; }
-main details[open] > summary, main details > summary:hover { background: #f9efef; }
-main [class*="text-3xl"], main [class*="text-4xl"] { color: #AA151B; }
+/* === Charte du pays (refonte d'identité validée par l'éditeur, appliquée le 2026-11-25) ===
+   En-tête plein, bandeau héros, simulateur en carte, sections alternées, chiffres-résultats, boutons et pied
+   aux couleurs du pays ; l'échelle --color-accent-* du @theme porte la couleur forte. */
+/* En-tête plein + filet de la 2e couleur */
+header nav[aria-label] { background:#AA151B !important; border-bottom:5px solid #F1BF00 !important; backdrop-filter:none !important; }
+header nav[aria-label] > div > a, header nav[aria-label] > div > a span, header nav[aria-label] .nav-dropdown-trigger, #mobile-menu-toggle, header nav[aria-label] a:not(#mobile-menu a):not(.nav-dropdown-panel a), header nav[aria-label] button:not(#mobile-menu button) { color:#fff !important; }
+header nav[aria-label] a[class*="border"]:not(#mobile-menu a) { border-color:rgba(255,255,255,.75) !important; }
+header nav[aria-label] img { background:#fff; border-radius:8px; padding:2px; }
+header nav[aria-label] .nav-dropdown-panel, #mobile-menu { background:#fff !important; }
+header nav[aria-label] .nav-dropdown-panel a, #mobile-menu a, #mobile-menu button, #mobile-menu span { color:#0F172A !important; }
+/* Bandeau héros pleine largeur dans la couleur forte */
+main header:has(> h1) { background:#AA151B !important; box-shadow:0 0 0 100vmax #AA151B; clip-path:inset(-3rem -100vmax 0 -100vmax); margin-bottom:0 !important; padding-top:.25rem !important; padding-bottom:1.5rem !important; border:0 !important; }
+main header:has(> h1) h1, main header:has(> h1) h1 *, main header:has(> h1) p, main header:has(> h1) li, main header:has(> h1) label, main header:has(> h1) small, main header:has(> h1) strong, main header:has(> h1) span:not([class*="bg-"]) { color:#fff !important; }
+main header:has(> h1) h1 { letter-spacing:-0.02em; }
+main header:has(> h1) a { color:#fff !important; text-decoration:underline; text-decoration-color:#F1BF00; text-decoration-thickness:2px; }
+main header:has(> h1) [class*="bg-"] { color:#0F172A !important; }
+main header:has(> h1) ~ :not([data-outil]):has(~ [data-outil]) { background:#AA151B !important; box-shadow:0 0 0 100vmax #AA151B; clip-path:inset(0 -100vmax); margin-top:0 !important; margin-bottom:0 !important; padding-top:.75rem; padding-bottom:.75rem; }
+main header:has(> h1) ~ :not([data-outil]):has(~ [data-outil]), main header:has(> h1) ~ :not([data-outil]):has(~ [data-outil]) *:not(main [class*="bg-"] *):not([class*="bg-"]):not(input):not(select):not(textarea):not(option) { color:#fff !important; }
+main header:has(> h1) ~ :not([data-outil]):has(~ [data-outil]) a { text-decoration:underline; text-decoration-color:#F1BF00; }
+main [data-outil] { background:#AA151B !important; box-shadow:0 0 0 100vmax #AA151B; clip-path:inset(0 -100vmax); padding-bottom:2.25rem !important; margin-bottom:2.25rem !important; border:0 !important; }
+main [data-outil] [data-chrome]:not([data-chrome] [data-chrome]), main [data-outil][data-chrome] > * { background:#fff !important; border:0 !important; border-top:6px solid #F1BF00 !important; border-radius:14px !important; }
+main [data-outil][data-chrome] { padding:0 !important; }
+main [data-outil][data-chrome] > * { padding:1rem; }
+main [data-outil] [data-chrome] :is(p,label,span,h2,h3,li,dt,dd,td,th,legend,small,strong):not([class*="bg-accent-5"]):not([class*="bg-accent-6"]):not([class*="bg-accent-7"]):not([class*="text-white"]) { color:#0F172A; }
+main [data-outil] :is(p,span,small,strong,a,label,li,dt,dd,h2,h3,summary):not([data-chrome] *):not([data-chrome]):not(main [class*="bg-"] *):not([class*="bg-"]) { color:#fff !important; }
+main [data-outil][data-chrome] :is(p,label,span,h2,h3,li,dt,dd,td,th,legend,small,strong):not([class*="bg-accent-5"]):not([class*="bg-accent-6"]):not([class*="bg-accent-7"]):not([class*="text-white"]) { color:#0F172A !important; }
+main [data-outil] :is([class*="text-navy-4"],[class*="text-navy-5"],[class*="text-gray-4"],[class*="text-gray-5"],[class*="text-slate-4"],[class*="text-slate-5"]) { color:#334155 !important; }
+/* Chiffres-résultats grands, dans l'accent, sur fond teinté */
+main [aria-live] :is([class*="text-2xl"],[class*="text-3xl"],[class*="text-4xl"]):not([class*="text-white"]), main [data-resultat] :is([class*="text-2xl"],[class*="text-3xl"]) { font-size:2.1rem !important; line-height:1.15 !important; color:#AA151B !important; background:#F9EFEF; border-radius:8px; padding:.05em .3em; }
+/* Sections alternées blanc / teinte */
+main [data-outil] ~ :is(div,section):nth-of-type(odd) { background:#F3DEDF; box-shadow:0 0 0 100vmax #F3DEDF; clip-path:inset(0 -100vmax); padding-top:1.5rem; padding-bottom:1.5rem; }
+main .prose h2, main section > h2, main h2.text-2xl { color:#AA151B !important; border-left:8px solid #F1BF00; padding-left:.6rem; }
+main h3 { color:#AA151B; }
+main :is(div,section) :is([class*="text-navy-4"],[class*="text-navy-5"],[class*="text-gray-4"],[class*="text-gray-5"],[class*="text-slate-4"],[class*="text-slate-5"]):not([data-outil] *):not(header *):not(main header:has(> h1) *):not(main header:has(> h1)) { color:#334155 !important; }
+/* Boutons pleins 2e couleur, liens soulignés colorés */
+main button[type="submit"], main a[class~="bg-accent-500"], main a[class~="bg-accent-600"], main a[class~="bg-accent-700"], main button[class~="bg-accent-500"], main button[class~="bg-accent-600"], main button[class~="bg-accent-700"], main a[class*="bg-brand"], main button[class*="bg-brand"], main a[class*="bg-primary"], main button[class*="bg-primary"] { background:#F1BF00 !important; color:#111111 !important; border-color:#F1BF00 !important; border-radius:10px; font-weight:700; }
+main :is(button,a):is([class~="bg-accent-500"],[class~="bg-accent-600"],[class~="bg-accent-700"]) * { color:#111111 !important; }
+main button[type="submit"]:hover, main a[class~="bg-accent-600"]:hover, main a[class~="bg-accent-500"]:hover { background:#D9AC00 !important; }
+main .prose a, main p > a, main li > a { color:#AA151B !important; text-decoration:underline; text-decoration-color:#F1BF00; text-decoration-thickness:2px; text-underline-offset:3px; }
+/* Encadrés et tableaux */
+main .bg-accent-50 { background:#F9EFEF !important; border-left:6px solid #F1BF00; }
+main [class*="bg-accent-50/"], main [class*="bg-accent-100/"] { background:#F9EFEF !important; }
+main :is([class*="bg-[#0"],[class*="bg-[#1"],[class*="bg-navy-9"],[class*="bg-navy-8"],[class*="bg-slate-9"],[class*="bg-gray-9"]) a { color:#fff !important; text-decoration-color:currentColor; text-underline-offset:6px; }
+main table thead th { color:#AA151B !important; border-bottom:0 !important; box-shadow:inset 0 -3px 0 #F1BF00; background:#F9EFEF; }
+main a[class*="border-accent-"]:not([class~="bg-accent-500"]):not([class~="bg-accent-600"]):not([class~="bg-accent-700"]) { border-color:transparent !important; outline:1px solid #D48A8D; outline-offset:0; background:#F9EFEF !important; color:#AA151B !important; }
+@media (max-width: 640px) {
+ main [data-outil] { margin-left:-1rem !important; margin-right:-1rem !important; padding-left:0 !important; padding-right:0 !important; }
+ main [data-outil] > astro-island { display:block; }
+ main [data-outil] [data-chrome]:not([data-chrome] [data-chrome]), main [data-outil][data-chrome] > *, main [data-outil] > astro-island > div { border-radius:0 !important; margin-left:0 !important; margin-right:0 !important; }
+}
+/* Pied de page plein sombre */
+footer { background:#2B0A0B !important; border-top:6px solid #F1BF00 !important; }
+footer, footer *:not(svg):not(path) { color:#E5E7EB !important; border-color:rgba(255,255,255,.2) !important; }
+footer a { color:#fff !important; text-decoration:underline; text-decoration-color:#F1BF00; }
+footer [class*="bg-"]:not([aria-hidden]) { background:transparent !important; }
+main [data-outil] :is([data-chrome],[data-outil]) :is(p,span,div,strong,output,dd):is([class*="text-3xl"],[class*="text-4xl"],[class*="text-5xl"]):not([class*="text-white"]):not([class*="bg-accent-5"]):not([class*="bg-accent-6"]):not([class*="bg-accent-7"]):not(h1), main [data-outil][data-chrome] :is(p,span,div,strong,output,dd):is([class*="text-3xl"],[class*="text-4xl"],[class*="text-5xl"]):not([class*="text-white"]):not([class*="bg-accent-5"]):not([class*="bg-accent-6"]):not([class*="bg-accent-7"]):not(h1) { color:#AA151B !important; }
+main > div > :is(h1, h1 + p, h1 + p + p, [data-outil]) { background:#AA151B !important; box-shadow:0 0 0 100vmax #AA151B; clip-path:inset(-1.2rem -100vmax); margin-top:0 !important; margin-bottom:0 !important; }
+main > div > h1 { padding-top:1.4rem; padding-bottom:.6rem; clip-path:inset(-4rem -100vmax -1.2rem) !important; }
+main > div > :is(h1, h1 + p), main > div > :is(h1, h1 + p) *:not([class*="bg-"]) { color:#fff !important; }
+main > div > h1 + p { padding-bottom:1rem; }
+main > div > h1 + p + p, main > div > h1 + p + p * { color:#0F172A !important; }
+main > div > p[data-prix-du-jour] { background:#FFF7D6 !important; border:0 !important; border-left:6px solid #F1BF00 !important; margin-bottom:1rem !important; box-shadow:0 0 0 100vmax #AA151B; clip-path:inset(-1.2rem -100vmax -1rem) !important; }
+/* le bandeau du paragraphe sous le titre ne remonte plus sur le titre (jambages de p, g, y coupés) */
+main > div > h1 + p, main > div > h1 + p + p { clip-path:inset(0 -100vmax -1.2rem) !important; }
+/* texte replié de la note « d'où vient ce prix » : fond blanc propre, il reste sur la carte même quand le bandeau rouge est derrière */
+main [data-outil] [data-chrome] details :is(p, button) { background-color:#fff; }
+/* === fin de la charte du pays === */
